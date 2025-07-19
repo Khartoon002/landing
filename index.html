@@ -1,11 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ethereal earning</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins');
+
+    :root {
+      --highlight-color: #B8FF25;
+      --text-color: #ffffff;
+      --background-color: #0A0F0B;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: var(--background-color) url('Redtp1.jpg') center/cover no-repeat;
+      color: var(--text-color);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      font-size: 12px;
+    }
+
+    .title,
+    h1,
+    .description,
+    form {
+      text-align: center;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--highlight-color);
+      margin-bottom: 0.3rem;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+
+    .description {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-bottom: 1.5rem;
+    }
+
+    .mil-btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      color: #ff00006a;
+      box-shadow: inset 0px 0px 10px 1px #5ee807, inset 0 0 7px 3px #ffffff;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+      width: 100%;
+      margin-top: 1rem;
+      text-decoration: none;
+    }
+
+    .mil-btn:hover {
+      filter: brightness(110%);
+      background-color: #98d1a0;
+      box-shadow: unset;
+      color: #0c191c;
+    }
+
+    .mil-btn.mil-add-arrow:after {
+      content: "\f061";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      margin-left: 15px;
+      font-size: 12px;
+      color: var(--highlight-color);
+    }
+
+    .card.review-section {
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 1.5rem;
+      max-width: 400px;
+      margin: 2rem auto;
+      text-align: center;
+    }
+
+    .review-section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+      color: var(--highlight-color);
+    }
+
+    .review-score {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .stars {
+      font-size: 1.5rem;
+      color: gold;
+    }
+
+    .chat-popup-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .chat-popup {
+      background-color: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .chat-popup img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    #chat-message {
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
-    HELLO WORLD
+  <div class="title">Ethereal Online Earning Platform</div>
+  <h1 id="referral-msg">Ethereal Website</h1>
+  <p class="description">Earn whenever you are online, Ethereal Website works for all countries</p>
+  <p class="description">Click the button below to get started, or message 07066769745 on whatsapp</p>
+
+  <form id="signupForm">
+    <button class="mil-btn mil-m mil-add-arrow mil-adaptive-right" type="button" onclick="window.location.href='https://wa.link/tquyt4'">Join Now!</button>
+  </form>
+
+  <div class="card review-section">
+    <h2>Customer Reviews</h2>
+    <div class="review-score" id="score">2.00</div>
+    <div class="stars" id="stars">★★☆☆☆</div>
+  </div>
+
+  <div class="chat-popup-container">
+    <div class="chat-popup" id="chat">
+      <img src="download.jpg" alt="User Profile" />
+      <span id="chat-message">Hello</span>
+    </div>
+  </div>
+
+  <script>
+    let reviewScore = 2;
+    let interval = setInterval(() => {
+      if (reviewScore < 5) {
+        reviewScore++;
+        document.getElementById("score").textContent = reviewScore.toFixed(2);
+        document.getElementById("stars").textContent = '★'.repeat(reviewScore) + '☆'.repeat(5 - reviewScore);
+      } else {
+        clearInterval(interval);
+      }
+    }, 4000);
+
+    const messages = [
+      "I withdrew 200k yesterday,Can I withdraw again today?",
+      "I Registered successfully, thank you!",
+      "I have earned more than 400k already!!",
+      "Ethereal Website Changed my life for good",
+    ];
+    let index = 0;
+    const chat = document.getElementById('chat');
+    const messageEl = document.getElementById('chat-message');
+
+    function showNextChat() {
+      chat.style.display = 'flex';
+      messageEl.textContent = messages[index];
+      setTimeout(() => {
+        chat.style.display = 'none';
+        index = (index + 1) % messages.length;
+      }, 4000);
+    }
+
+    showNextChat();
+    setInterval(showNextChat, 8000);
+
+    const ref = new URLSearchParams(window.location.search).get('ref');
+    if (ref) {
+      document.getElementById('referral-msg').textContent = `Invited by ${ref}`;
+    }
+  </script>
 </body>
 </html>
