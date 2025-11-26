@@ -1,214 +1,960 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ethereal earning</title>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Animo Website | Register & Dashboard</title>
+
+  <!-- Fonts & Tailwind -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            poppins: ['Poppins', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            animo: {
+              bg: '#02040A',
+              panel: '#050914',
+              card: '#0B1220',
+              green1: '#20E27E',
+              green2: '#A7E34C',
+            }
+          },
+          boxShadow: {
+            'soft': '0 18px 40px rgba(0,0,0,0.35)',
+          },
+          borderRadius: {
+            '3xl': '1.5rem',
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins');
-
-    :root {
-      --highlight-color: #B8FF25;
-      --text-color: #ffffff;
-      --background-color: #0A0F0B;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
     body {
-      background: var(--background-color) url('Redtp1.jpg') center/cover no-repeat;
-      color: var(--text-color);
-      min-height: 100vh;
-      padding: 2rem 1rem;
-      font-size: 12px;
+      background: radial-gradient(circle at top, #07291A 0, #02040A 45%, #020617 100%);
+      font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
-    .title,
-    h1,
-    .description,
-    form {
-      text-align: center;
-      max-width: 400px;
-      margin: 0 auto;
+    .glass-card {
+      background: radial-gradient(circle at top left, rgba(167, 227, 76, 0.12), rgba(15,23,42,0.96));
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.75);
     }
 
-    .title {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--highlight-color);
-      margin-bottom: 0.3rem;
+    .pill-badge {
+      background: linear-gradient(135deg, #22C55E, #A7E34C);
+      box-shadow: 0 12px 30px rgba(34, 197, 94, 0.45);
     }
 
-    h1 {
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin-bottom: 0.8rem;
+    .primary-btn {
+      background: linear-gradient(135deg, #22C55E, #A7E34C);
+      box-shadow: 0 12px 30px rgba(34, 197, 94, 0.55);
     }
 
-    .description {
-      font-size: 0.9rem;
-      opacity: 0.9;
-      margin-bottom: 1.5rem;
+    .primary-btn:active {
+      transform: translateY(1px) scale(0.99);
     }
 
-    .mil-btn {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      color: #ff00006a;
-      box-shadow: inset 0px 0px 10px 1px #5ee807, inset 0 0 7px 3px #ffffff;
-      padding: 0.8rem 1.2rem;
-      font-size: 0.9rem;
-      width: 100%;
-      margin-top: 1rem;
-      text-decoration: none;
+    .bottom-nav-blur {
+      backdrop-filter: blur(18px);
+      background: radial-gradient(circle at top, rgba(15,23,42,0.96), rgba(15,23,42,0.98));
+      border-top: 1px solid rgba(148,163,184,0.25);
     }
 
-    .mil-btn:hover {
-      filter: brightness(110%);
-      background-color: #98d1a0;
-      box-shadow: unset;
-      color: #0c191c;
+    .modal-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
     }
 
-    .mil-btn.mil-add-arrow:after {
-      content: "\f061";
-      font-family: "Font Awesome 5 Free";
-      font-weight: 900;
-      margin-left: 15px;
-      font-size: 12px;
-      color: var(--highlight-color);
+    .modal-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
     }
 
-    .card.review-section {
-      background-color: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      padding: 1.5rem;
-      max-width: 400px;
-      margin: 2rem auto;
-      text-align: center;
+    .modal-panel {
+      transform: translateY(32px);
+      opacity: 0;
+      transition: all 0.23s ease-out;
     }
 
-    .review-section h2 {
-      font-size: 1.2rem;
-      margin-bottom: 0.8rem;
-      color: var(--highlight-color);
-    }
-
-    .review-score {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-    }
-
-    .stars {
-      font-size: 1.5rem;
-      color: gold;
-    }
-
-    .chat-popup-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-
-    .chat-popup {
-      background-color: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-      padding: 0.8rem 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      backdrop-filter: blur(5px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .chat-popup img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    #chat-message {
-      font-size: 0.9rem;
+    .modal-panel.visible {
+      transform: translateY(0);
+      opacity: 1;
     }
   </style>
 </head>
-<body>
-  <div class="title">Ethereal Online Earning Platform</div>
-  <h1 id="referral-msg">Ethereal Website</h1>
-  <p class="description">Earn whenever you are online, Ethereal Website works for all countries</p>
-  <p class="description">Click the button below to get started, or message 07066769745 on whatsapp</p>
+<body class="text-slate-50">
+  <div class="max-w-md mx-auto min-h-screen flex flex-col relative">
 
-  <form id="signupForm">
-    <button class="mil-btn mil-m mil-add-arrow mil-adaptive-right" type="button" onclick="window.location.href='https://wa.link/tquyt4'">Join Now!</button>
-  </form>
-
-  <div class="card review-section">
-    <h2>Customer Reviews</h2>
-    <div class="review-score" id="score">2.00</div>
-    <div class="stars" id="stars">★★☆☆☆</div>
-  </div>
-
-  <div class="chat-popup-container">
-    <div class="chat-popup" id="chat">
-      <img src="download.jpg" alt="User Profile" />
-      <span id="chat-message">Hello</span>
+    <!-- Toast for copy -->
+    <div id="copyToast"
+         class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 px-3 py-1.5 rounded-full bg-slate-900/95 border border-emerald-400/60 text-[11px] text-emerald-200 opacity-0 pointer-events-none transition-opacity">
+      Copied
     </div>
+
+    <!-- ============ SCREEN 1: REGISTRATION FORM ============ -->
+    <section id="welcomeFormScreen" class="flex-1 flex flex-col justify-center px-5 pb-24">
+      <div class="glass-card rounded-3xl px-5 py-6">
+        <p class="text-[11px] text-emerald-300 uppercase tracking-[0.24em] mb-1">
+          Welcome to Animo Website
+        </p>
+        <h1 class="text-xl font-semibold mb-2">
+          Register on Animo and reserve your earnings wallet
+        </h1>
+        <p class="text-xs text-slate-400 mb-4">
+          Animo is a people-driven ecosystem that combines wealth creation, skills, and community. Fill this form to
+          create your personal dashboard before you pay for your package.
+        </p>
+
+        <form id="welcomeForm" class="space-y-3 text-sm">
+          <div>
+            <label class="block text-[11px] text-slate-300 mb-1">Full Name</label>
+            <input
+              type="text"
+              id="fullName"
+              required
+              class="w-full rounded-2xl bg-slate-950/80 border border-slate-700 px-3 py-2 text-xs focus:outline-none focus:border-emerald-400"
+              placeholder="Enter your full name"
+            />
+          </div>
+
+          <div>
+            <label class="block text-[11px] text-slate-300 mb-1">Username</label>
+            <input
+              type="text"
+              id="username"
+              required
+              class="w-full rounded-2xl bg-slate-950/80 border border-slate-700 px-3 py-2 text-xs focus:outline-none focus:border-emerald-400"
+              placeholder="Your Animo username"
+            />
+          </div>
+
+          <div>
+            <label class="block text-[11px] text-slate-300 mb-1">Email</label>
+            <input
+              type="email"
+              id="email"
+              required
+              class="w-full rounded-2xl bg-slate-950/80 border border-slate-700 px-3 py-2 text-xs focus:outline-none focus:border-emerald-400"
+              placeholder="example@email.com"
+            />
+          </div>
+
+          <div>
+            <label class="block text-[11px] text-slate-300 mb-1">Phone Number</label>
+            <input
+              type="tel"
+              id="phone"
+              required
+              class="w-full rounded-2xl bg-slate-950/80 border border-slate-700 px-3 py-2 text-xs focus:outline-none focus:border-emerald-400"
+              placeholder="e.g. 07012345678"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="mt-2 w-full primary-btn rounded-2xl text-slate-950 text-sm font-semibold py-2.5 flex items-center justify-center gap-2"
+          >
+            Continue to Animo Dashboard
+            <span class="text-base">→</span>
+          </button>
+        </form>
+
+        <p class="mt-3 text-[10px] text-slate-500">
+          Once this form is submitted, your Animo Website account will be reserved. The next step is to complete your
+          package payment so your bonuses, Yaps rewards, Walk-to-Earn and “Earn As You Snap” can start running for you.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ SCREEN 2: DASHBOARD ============ -->
+    <div id="dashboardScreen" class="hidden flex-1 flex flex-col relative">
+      <!-- HEADER -->
+      <header class="px-4 pt-4 pb-2 flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-400 uppercase tracking-[0.14em]">Welcome back</p>
+          <h1 id="displayUsername" class="text-lg font-semibold">Animo User</h1>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="text-xs px-2 py-1 rounded-full border border-emerald-400/40 bg-emerald-400/10 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="font-medium">ACCOUNT RESERVED</span>
+          </button>
+          <button class="text-xs px-3 py-1 rounded-full bg-slate-900/70 border border-slate-700 flex items-center gap-1">
+            <span class="text-[10px] text-slate-400">Currency</span>
+            <span class="font-semibold text-sm">NGN</span>
+            <span class="text-[10px]">▾</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- MAIN CONTENT (click to trigger popup) -->
+      <main id="dashboardMain" class="flex-1 overflow-y-auto pb-24 px-4 space-y-4 cursor-pointer">
+
+        <!-- Activation card -->
+        <section class="glass-card rounded-3xl p-4 flex gap-3">
+          <div class="flex-1">
+            <p class="text-[11px] font-semibold text-emerald-300 uppercase tracking-[0.16em]">
+              Your Animo account is ready
+            </p>
+            <p id="activationMessage" class="text-xs text-slate-400 mt-2">
+              Your profile and earnings wallet have been created. Once you complete your first payment, Animo will
+              activate your bonuses and start matching you with real people automatically. Don’t let this slot waste —
+              many people are trying to join.
+            </p>
+          </div>
+          <button class="self-center text-[11px] font-semibold px-3 py-1.5 rounded-full bg-slate-900/70 border border-emerald-400/40">
+            Activate Now
+          </button>
+        </section>
+
+        <!-- Earnings card -->
+        <section class="glass-card rounded-3xl p-4 pt-3 relative overflow-hidden active:scale-[0.995] transition">
+          <div class="absolute -top-10 -right-8 w-32 h-32 rounded-full bg-emerald-400/15 blur-3xl pointer-events-none"></div>
+
+          <div class="flex items-center justify-between mb-3 relative z-10">
+            <div class="flex items-center gap-2">
+              <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-400 flex items-center justify-center text-slate-900 font-semibold">
+                A
+              </div>
+              <div>
+                <p class="text-[11px] text-slate-300">Reserved earnings wallet</p>
+                <p class="text-sm font-semibold">Waiting for activation</p>
+              </div>
+            </div>
+            <span class="text-[11px] px-2 py-0.5 rounded-full pill-badge text-slate-950 font-semibold">
+              PENDING PAYMENT
+            </span>
+          </div>
+
+          <div class="mt-1 mb-3">
+            <p class="text-[11px] text-slate-300 uppercase tracking-[0.18em]">All Time Earnings</p>
+            <p class="text-3xl font-bold mt-1 leading-none">₦237,500.00</p>
+            <p class="text-[11px] text-emerald-300 mt-1">
+              As soon as you pay for a Silver or Gold package, this balance will start growing from cashback, Yaps,
+              Walk-to-Earn, gigs and more.
+            </p>
+          </div>
+
+          <div class="flex items-center justify-between mt-2 relative z-10">
+            <button class="px-3 py-2 rounded-2xl bg-slate-900/80 border border-slate-700 text-xs font-medium">
+              View Animo Packages
+            </button>
+            <button class="primary-btn text-slate-950 text-xs font-semibold px-3 py-2 rounded-2xl flex items-center gap-1.5">
+              Complete Payment
+              <span class="text-[13px]">↗</span>
+            </button>
+          </div>
+
+          <p class="mt-3 text-[10px] text-slate-400 italic">
+            Tap anywhere on the dashboard or wait a few seconds to see payment options.
+          </p>
+        </section>
+
+        <!-- What is Animo -->
+        <section class="glass-card rounded-3xl p-4 space-y-2">
+          <p class="text-sm font-semibold">What is Animo Website?</p>
+          <p class="text-xs text-slate-400">
+            Animo is a people-driven ecosystem that blends innovation, technology and community. It is built for people
+            who refuse to stand still—those who want to grow, earn and evolve through real digital systems.
+          </p>
+          <p class="text-xs text-slate-400">
+            From skills and gigs to digital real estate and walk-to-earn, every step inside Animo moves you closer to
+            abundance.
+          </p>
+          <button class="mt-2 text-xs px-3 py-2 rounded-2xl bg-slate-900/70 border border-slate-700">
+            How to register on Animo →
+          </button>
+        </section>
+
+        <!-- Features: Yaps & Gigs -->
+        <section class="grid grid-cols-1 gap-3">
+          <div class="glass-card rounded-3xl p-4 space-y-1.5">
+            <p class="text-sm font-semibold">Animo Yaps</p>
+            <p class="text-xs text-slate-400">
+              Get rewarded for talking about Animo online. Create posts, videos or stories, use the official hashtags,
+              and once admins verify them, you earn.
+            </p>
+            <p class="text-[10px] text-slate-400">
+              The more relevant and original your content, the more you earn.
+            </p>
+          </div>
+
+          <div class="glass-card rounded-3xl p-4 space-y-1.5">
+            <p class="text-sm font-semibold">Animo Gigs</p>
+            <p class="text-xs text-slate-400">
+              A built-in marketplace where users can find work, offer services and get paid directly through the Animo
+              ecosystem.
+            </p>
+            <p class="text-[10px] text-slate-400">
+              Perfect for freelancers, creators and anyone who wants to monetize their skills.
+            </p>
+          </div>
+        </section>
+
+        <!-- Earn As You Snap & Walk to Earn & Digital Real Estate -->
+        <section class="glass-card rounded-3xl p-4 space-y-3">
+          <div>
+            <p class="text-sm font-semibold">Earn As You Snap</p>
+            <p class="text-xs text-slate-400">
+              Post Animo content on your Snapchat story and earn per post. Your daily snaps turn into daily income.
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm font-semibold">Walk-to-Earn</p>
+            <p class="text-xs text-slate-400">
+              With Animo’s Walk-to-Earn feature, your movement becomes money. Every step you take is converted into
+              rewards, so staying active pays you.
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm font-semibold">Digital Real Estate</p>
+            <p class="text-xs text-slate-400">
+              Own, trade and profit from premium virtual properties inside Animo. Buy low, sell high and build
+              sustainable income through digital assets.
+            </p>
+          </div>
+        </section>
+
+        <!-- Packages summary card -->
+        <section class="glass-card rounded-3xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <p class="text-sm font-semibold">Animo Website Earning Packages</p>
+            <span class="text-[11px] text-emerald-300 font-medium">Silver & Gold</span>
+          </div>
+
+          <div class="rounded-2xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-xs space-y-1">
+            <p class="font-semibold text-slate-100">🩶 Animo Silver Plan</p>
+            <p>Activation Fee: <span class="font-semibold text-emerald-300">₦10,000</span></p>
+            <p>Instant Cashback: ₦8,500 | Sponsor: ₦9,000</p>
+            <p>Snapchat Story: ₦1,000 | Article: ₦700</p>
+            <p>Walk-to-Earn: ₦6 per step</p>
+            <p class="text-[10px] text-slate-400">
+              Active: Incentives, Bookstore, Animo Yaps, Photo Contest, Skill Up.
+            </p>
+          </div>
+
+          <div class="rounded-2xl bg-slate-900/80 border border-emerald-400/40 px-3 py-2 text-xs space-y-1">
+            <p class="font-semibold text-amber-300">💛 Animo Gold Plan</p>
+            <p>Activation Fee: <span class="font-semibold text-emerald-300">₦15,000</span></p>
+            <p>Instant Cashback: ₦13,000 | Sponsor: ₦13,000</p>
+            <p>Snapchat Story: ₦1,500 | Article: ₦1,000</p>
+            <p>Walk-to-Earn: ₦10 per step</p>
+            <p class="text-[10px] text-slate-400">
+              Active: Animo Gig, Incentives, Bookstore, Animo Games, Animo Yaps, Photo Contest, Skill Up.
+            </p>
+          </div>
+
+          <button class="w-full mt-1 primary-btn rounded-2xl text-slate-950 text-xs font-semibold py-2">
+            Start your Animo journey now →
+          </button>
+        </section>
+      </main>
+
+      <!-- Bottom nav -->
+      <nav class="bottom-nav-blur fixed bottom-0 inset-x-0">
+        <div class="max-w-md mx-auto flex justify-between px-8 py-2.5 text-[11px] text-slate-400">
+          <button class="flex flex-col items-center gap-0.5">
+            <span>🛒</span>
+            <span>Marketplace</span>
+          </button>
+          <button class="flex flex-col items-center gap-0.5">
+            <span>🎮</span>
+            <span>Games</span>
+          </button>
+          <button class="flex flex-col items-center gap-0.5 text-emerald-400">
+            <div class="w-11 h-11 rounded-full primary-btn flex items-center justify-center -mt-4 border border-slate-900">
+              ⌂
+            </div>
+            <span class="-mt-1 font-semibold text-[11px] text-emerald-300">Home</span>
+          </button>
+          <button class="flex flex-col items-center gap-0.5">
+            <span>💳</span>
+            <span>Withdraw</span>
+          </button>
+          <button class="flex flex-col items-center gap-0.5">
+            <span>👤</span>
+            <span>Profile</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- ============ MODAL 1: PACKAGE SELECTION (Silver / Gold) ============ -->
+    <div id="packageModal"
+         class="modal-overlay hidden fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-40 transition-opacity duration-200">
+      <div class="modal-panel w-full max-w-md bg-animo-panel rounded-3xl p-5 pb-6 border border-slate-800 shadow-soft">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <p class="text-[11px] text-emerald-300 uppercase tracking-[0.2em]">Step 1 of 3</p>
+            <h2 class="text-base font-semibold mt-0.5">Select Animo Website package</h2>
+          </div>
+          <button data-close="packageModal"
+                  class="w-8 h-8 rounded-full bg-slate-900/80 border border-slate-700 flex items-center justify-center text-slate-300 text-sm">
+            ✕
+          </button>
+        </div>
+
+        <p class="text-[11px] text-slate-400 mb-3">
+          Your account is already created. The only thing left is to choose a package and pay. The earlier you activate
+          it, the faster your cashback, Yaps income, Walk-to-Earn and Snapchat rewards will start dropping.
+        </p>
+
+        <div class="grid grid-cols-1 gap-2 text-xs">
+          <!-- Silver -->
+          <button
+            class="text-left rounded-2xl border border-slate-700 bg-slate-900/80 px-3 py-3 hover:border-emerald-400 transition"
+            onclick="handlePackageClick('Animo Silver Plan','₦10,000','$10')"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-xs font-semibold text-slate-100">🩶 Animo Silver</p>
+                <p class="text-[11px] text-slate-400 mt-0.5">
+                  Activation ₦10,000, instant cashback ₦8,500, Snapchat story ₦1,000, article engagement ₦700,
+                  Walk-to-Earn ₦6 per step.
+                </p>
+              </div>
+              <div class="text-right">
+                <p class="font-semibold text-slate-50">₦10,000</p>
+                <p class="text-[10px] text-slate-400">Entry package</p>
+              </div>
+            </div>
+          </button>
+
+          <!-- Gold -->
+          <button
+            class="text-left rounded-2xl border border-emerald-500/50 bg-slate-900/80 px-3 py-3 hover:border-emerald-400 transition"
+            onclick="handlePackageClick('Animo Gold Plan','₦15,000','$15')"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-xs font-semibold text-amber-300">💛 Animo Gold</p>
+                <p class="text-[11px] text-slate-400 mt-0.5">
+                  Activation ₦15,000, instant cashback ₦13,000, higher Snapchat and article earnings, Walk-to-Earn
+                  ₦10 per step plus more active features.
+                </p>
+              </div>
+              <div class="text-right">
+                <p class="font-semibold text-slate-50">₦15,000</p>
+                <p class="text-[10px] text-slate-400">Best value</p>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <p class="mt-3 text-[10px] text-slate-500">
+          Start with the plan you can afford now. You can upgrade inside Animo Website as your earnings grow.
+        </p>
+      </div>
+    </div>
+
+    <!-- ============ MODAL 2: PAYMENT METHOD (OPay / Banks / Foreign DM) ============ -->
+    <div id="methodModal"
+         class="modal-overlay hidden fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-40 transition-opacity duration-200">
+      <div class="modal-panel w-full max-w-md bg-animo-panel rounded-3xl p-5 pb-6 border border-slate-800 shadow-soft">
+        <div class="flex items-center justify-between mb-2">
+          <button onclick="backToPackage()"
+                  class="w-8 h-8 rounded-full bg-slate-900/80 border border-slate-700 flex items-center justify-center text-slate-200 text-sm">
+            ←
+          </button>
+          <div class="flex-1 text-center">
+            <p class="text-[11px] text-emerald-300 uppercase tracking-[0.2em]">Step 2 of 3</p>
+            <h2 class="text-base font-semibold mt-0.5">Choose payment method</h2>
+          </div>
+          <button data-close="methodModal"
+                  class="w-8 h-8 rounded-full bg-slate-900/80 border border-slate-700 flex items-center justify-center text-slate-300 text-sm">
+            ✕
+          </button>
+        </div>
+
+        <div class="rounded-2xl bg-slate-900/80 border border-emerald-500/40 px-3 py-2.5 text-xs mb-3">
+          <p class="text-[11px] text-slate-300 mb-1">
+            Selected Package:
+            <span id="summaryPackageNameMethod" class="font-semibold text-emerald-300"></span>
+          </p>
+          <p class="text-[11px] text-slate-400">
+            Amount:
+            <span id="summaryPackageAmountMethod" class="font-semibold text-slate-200"></span>
+          </p>
+        </div>
+
+        <p class="text-[11px] text-slate-400 mb-2">
+          These payment details are strictly for your registration. Once your payment is confirmed, your Animo Website
+          account will switch from <span class="text-emerald-300 font-semibold">pending</span> to
+          <span class="text-emerald-300 font-semibold">active</span>, and all your earnings systems will unlock.
+        </p>
+
+        <div class="grid grid-cols-3 gap-2 text-[11px] mb-3">
+          <button id="methodOpay"
+                  class="rounded-2xl border border-slate-700 bg-slate-900/80 px-2 py-2 flex flex-col items-center gap-1">
+            <span>🟢</span>
+            <span>OPay</span>
+          </button>
+          <button id="methodBanks"
+                  class="rounded-2xl border border-slate-700 bg-slate-900/80 px-2 py-2 flex flex-col items-center gap-1">
+            <span>🏦</span>
+            <span>Other Banks</span>
+          </button>
+          <button id="methodForeign"
+                  class="rounded-2xl border border-slate-700 bg-slate-900/80 px-2 py-2 flex flex-col items-center gap-1">
+            <span>🌍</span>
+            <span>Foreign</span>
+          </button>
+        </div>
+
+        <!-- OPay -->
+        <div id="methodDetailsOpay" class="hidden rounded-2xl bg-slate-900/80 border border-emerald-500/30 px-3 py-3 text-xs space-y-1.5 mb-3">
+          <p class="font-semibold text-emerald-300 text-[11px]">Pay with OPay (Nigeria)</p>
+
+          <p class="flex items-center justify-between gap-2">
+            <span>
+              <span class="text-slate-400">Bank:</span>
+              <span id="opayBankTxt" class="font-semibold text-slate-100">OPay</span>
+            </span>
+            <button class="text-[10px] px-2 py-0.5 rounded-full border border-emerald-400/60 bg-slate-900/80"
+                    onclick="copyField('opayBankTxt','Bank')">
+              Copy
+            </button>
+          </p>
+
+          <p class="flex items-center justify-between gap-2">
+            <span>
+              <span class="text-slate-400">Account Name:</span>
+              <span id="opayAccountNameTxt" class="font-semibold text-slate-100">CLINTON UCHENNA SPINO</span>
+            </span>
+            <button class="text-[10px] px-2 py-0.5 rounded-full border border-emerald-400/60 bg-slate-900/80"
+                    onclick="copyField('opayAccountNameTxt','Account name')">
+              Copy
+            </button>
+          </p>
+
+          <p class="flex items-center justify-between gap-2">
+            <span>
+              <span class="text-slate-400">Account Number:</span>
+              <span id="opayAccountNumberTxt" class="font-semibold text-slate-100">6416620475</span>
+            </span>
+            <button class="text-[10px] px-2 py-0.5 rounded-full border border-emerald-400/60 bg-slate-900/80"
+                    onclick="copyField('opayAccountNumberTxt','Account number')">
+              Copy
+            </button>
+          </p>
+
+          <p class="text-[10px] text-emerald-300 mt-1">
+            Copy the details carefully, make your transfer, and keep your receipt for confirmation.
+          </p>
+        </div>
+
+        <!-- Other Banks -->
+        <div id="methodDetailsBanks" class="hidden rounded-2xl bg-slate-900/80 border border-slate-700 px-3 py-3 text-xs space-y-1.5 mb-3">
+          <p class="font-semibold text-slate-100 text-[11px]">Pay with Nigerian Banks</p>
+
+          <p class="flex items-center justify-between gap-2">
+            <span>
+              <span class="text-slate-400">Bank:</span>
+              <span id="bankBankTxt" class="font-semibold text-slate-100">Moniepoint</span>
+            </span>
+            <button class="text-[10px] px-2 py-0.5 rounded-full border border-emerald-400/60 bg-slate-900/80"
+                    onclick="copyField('bankBankTxt','Bank')">
+              Copy
+            </button>
+          </p>
+
+          <p class="flex items-center justify-between gap-2">
+            <span>
+              <span class="text-slate-400">Account Name:</span>
+              <span id="bankAccountNameTxt" class="font-semibold text-slate-100">CLINTON UCHENNA SPINO</span>
+            </span>
+            <button class="text-[10px] px-2 py-0.5 rounded-full border border-emerald-400/60 bg-slate-900/80"
+                    onclick="copyField('bankAccountNameTxt','Account name')">
+              Copy
+            </button>
+          </p>
+
+          <p class="flex items-center justify-between gap-2">
+            <span>
+              <span class="text-slate-400">Account Number:</span>
+              <span id="bankAccountNumberTxt" class="font-semibold text-slate-100">6054080105</span>
+            </span>
+            <button class="text-[10px] px-2 py-0.5 rounded-full border border-emerald-400/60 bg-slate-900/80"
+                    onclick="copyField('bankAccountNumberTxt','Account number')">
+              Copy
+            </button>
+          </p>
+
+          <p class="text-[10px] text-slate-400 mt-1">
+            Use your mobile app or internet banking. As soon as we see your transfer, we will activate your Animo
+            Website account.
+          </p>
+        </div>
+
+        <!-- Foreign DM -->
+        <div id="methodDetailsForeign" class="hidden rounded-2xl bg-slate-900/80 border border-blue-400/40 px-3 py-3 text-xs space-y-2 mb-3">
+          <p class="font-semibold text-slate-100 text-[11px]">Paying from outside Nigeria?</p>
+          <p class="text-[11px] text-slate-300">
+            No problem. Send us a quick DM so we can give you the exact payment link and amount in your currency. Don’t
+            let distance stop you from joining Animo.
+          </p>
+          <p class="text-[10px] text-slate-400">Copy or send this message:</p>
+          <div class="bg-slate-950/80 rounded-2xl border border-slate-700 px-3 py-2 text-[10px] text-slate-200 flex items-start justify-between gap-2">
+            <span id="foreignDmText">
+              Hello Animo team, I want to pay for my selected package from my country. Please send me the secure foreign
+              payment link and the amount in my local currency.
+            </span>
+            <button class="shrink-0 text-[10px] px-2 py-0.5 mt-0.5 rounded-full border border-emerald-400/60 bg-slate-900/80"
+                    onclick="copyField('foreignDmText','Message')">
+              Copy
+            </button>
+          </div>
+
+          <p class="text-[11px] text-slate-300 mt-1">Send this DM via:</p>
+          <div class="grid grid-cols-3 gap-2 text-[11px]">
+            <a id="foreignWhatsAppLink"
+               href="https://wa.me/2349152304164?text=Hello%20Animo%20team%2C%20I%20want%20to%20pay%20for%20my%20selected%20package%20from%20my%20country.%20Please%20send%20me%20the%20secure%20foreign%20payment%20link%20and%20the%20amount%20in%20my%20local%20currency."
+               target="_blank"
+               class="rounded-2xl bg-slate-900/80 border border-emerald-400/50 px-2 py-2 flex flex-col items-center gap-1">
+              <span>🟢</span>
+              <span>WhatsApp</span>
+            </a>
+            <a id="foreignTelegramLink"
+               href="https://t.me/AnimoSupportBot"
+               target="_blank"
+               class="rounded-2xl bg-slate-900/80 border border-slate-700 px-2 py-2 flex flex-col items-center gap-1">
+              <span>📨</span>
+              <span>Telegram</span>
+            </a>
+            <a id="foreignEmailLink"
+               href="mailto:animo.support@example.com?subject=Foreign%20Payment%20Request&body=Hello%20Animo%20team%2C%20I%20want%20to%20pay%20for%20my%20selected%20package%20from%20my%20country.%20Please%20send%20me%20the%20secure%20foreign%20payment%20link%20and%20the%20amount%20in%20my%20local%20currency."
+               class="rounded-2xl bg-slate-900/80 border border-slate-700 px-2 py-2 flex flex-col items-center gap-1">
+              <span>✉️</span>
+              <span>Email</span>
+            </a>
+          </div>
+
+          <p class="text-[10px] text-slate-500">
+            After you pay with the foreign link they send, screenshot your payment page and send it as proof for instant
+            activation.
+          </p>
+        </div>
+
+        <!-- Proof submission (local) -->
+        <div id="methodProofBox" class="hidden border-t border-slate-800 pt-3">
+          <p class="text-[11px] text-slate-400 mb-1">
+            After payment, use this message when you are sending your proof:
+          </p>
+
+          <div class="bg-slate-950/80 rounded-2xl border border-slate-700 px-3 py-2 text-[10px] text-slate-200 flex items-start justify-between gap-2 mb-3">
+            <span id="proofMessageText">
+              <!-- Filled dynamically -->
+            </span>
+            <button class="shrink-0 text-[10px] px-2 py-0.5 mt-0.5 rounded-full border border-emerald-400/60 bg-slate-900/80"
+                    onclick="copyField('proofMessageText','Message')">
+              Copy
+            </button>
+          </div>
+
+          <p class="text-[11px] text-slate-400 mb-2">
+            Then send the message and your screenshot via any of these:
+          </p>
+          <div class="grid grid-cols-3 gap-2 text-[11px]">
+            <a id="emailProofLink"
+               href="#"
+               class="rounded-2xl bg-slate-900/80 border border-slate-700 px-2 py-2 flex flex-col items-center gap-1">
+              <span>✉️</span>
+              <span>Email</span>
+            </a>
+            <a id="whatsappProofLink"
+               href="#"
+               target="_blank"
+               class="rounded-2xl bg-slate-900/80 border border-emerald-400/50 px-2 py-2 flex flex-col items-center gap-1">
+              <span>🟢</span>
+              <span>WhatsApp</span>
+            </a>
+            <a id="telegramProofLink"
+               href="#"
+               target="_blank"
+               class="rounded-2xl bg-slate-900/80 border border-slate-700 px-2 py-2 flex flex-col items-center gap-1">
+              <span>📨</span>
+              <span>Telegram</span>
+            </a>
+          </div>
+          <p class="mt-2 text-[10px] text-slate-500">
+            Replace these contacts with your real Animo Website support links if needed.
+          </p>
+        </div>
+      </div>
+    </div>
+
   </div>
 
+  <!-- ==================== SCRIPT ==================== -->
   <script>
-    let reviewScore = 2;
-    let interval = setInterval(() => {
-      if (reviewScore < 5) {
-        reviewScore++;
-        document.getElementById("score").textContent = reviewScore.toFixed(2);
-        document.getElementById("stars").textContent = '★'.repeat(reviewScore) + '☆'.repeat(5 - reviewScore);
-      } else {
-        clearInterval(interval);
-      }
-    }, 4000);
+    const welcomeFormScreen = document.getElementById('welcomeFormScreen');
+    const dashboardScreen = document.getElementById('dashboardScreen');
+    const welcomeForm = document.getElementById('welcomeForm');
+    const displayUsername = document.getElementById('displayUsername');
+    const dashboardMain = document.getElementById('dashboardMain');
+    const activationMessage = document.getElementById('activationMessage');
+    const copyToast = document.getElementById('copyToast');
 
-    const messages = [
-      "I withdrew 200k yesterday,Can I withdraw again today?",
-      "I Registered successfully, thank you!",
-      "I have earned more than 400k already!!",
-      "Ethereal Website Changed my life for good",
-    ];
-    let index = 0;
-    const chat = document.getElementById('chat');
-    const messageEl = document.getElementById('chat-message');
+    let autoPopupScheduled = false;
+    let currentPackage = null;
+    let currentName = '';
 
-    function showNextChat() {
-      chat.style.display = 'flex';
-      messageEl.textContent = messages[index];
+    // User info from form
+    let userFullName = '';
+    let userUsername = '';
+    let userEmail = '';
+    let userPhone = '';
+
+    // Current payment details used for proof text
+    let currentBankName = '';
+    let currentAccountName = '';
+    let currentAccountNumber = '';
+
+    const proofMessageEl = document.getElementById('proofMessageText');
+    const emailProofLink = document.getElementById('emailProofLink');
+    const whatsappProofLink = document.getElementById('whatsappProofLink');
+    const telegramProofLink = document.getElementById('telegramProofLink');
+
+    function showElement(el) { el.classList.remove('hidden'); }
+    function hideElement(el) { el.classList.add('hidden'); }
+
+    function showModal(id) {
+      const modal = document.getElementById(id);
+      const panel = modal.querySelector('.modal-panel');
+      modal.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        modal.classList.add('visible');
+        setTimeout(() => panel.classList.add('visible'), 10);
+      });
+    }
+
+    function hideModal(id) {
+      const modal = document.getElementById(id);
+      const panel = modal.querySelector('.modal-panel');
+      if (!modal.classList.contains('visible')) return;
+      panel.classList.remove('visible');
+      modal.classList.remove('visible');
+      setTimeout(() => modal.classList.add('hidden'), 180);
+    }
+
+    function anyModalOpen() {
+      return ['packageModal','methodModal'].some(id => {
+        const m = document.getElementById(id);
+        return m && m.classList.contains('visible');
+      });
+    }
+
+    function openPackageModal() { showModal('packageModal'); }
+
+    function schedulePackagePopup() {
+      if (autoPopupScheduled) return;
+      autoPopupScheduled = true;
+      setTimeout(() => { if (!anyModalOpen()) openPackageModal(); }, 3000);
+    }
+
+    // Toast
+    function showCopyToast(message) {
+      copyToast.textContent = message;
+      copyToast.classList.remove('opacity-0');
+      copyToast.classList.add('opacity-100');
       setTimeout(() => {
-        chat.style.display = 'none';
-        index = (index + 1) % messages.length;
-      }, 4000);
+        copyToast.classList.add('opacity-0');
+        copyToast.classList.remove('opacity-100');
+      }, 1500);
     }
 
-    showNextChat();
-    setInterval(showNextChat, 8000);
-
-    const ref = new URLSearchParams(window.location.search).get('ref');
-    if (ref) {
-      document.getElementById('referral-msg').textContent = `Invited by ${ref}`;
+    function copyField(elementId, label) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const text = el.textContent.trim();
+      if (!navigator.clipboard) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showCopyToast(label + ' copied');
+      } else {
+        navigator.clipboard.writeText(text)
+          .then(() => showCopyToast(label + ' copied'))
+          .catch(() => showCopyToast('Unable to copy'));
+      }
     }
+    window.copyField = copyField;
+
+    // Build proof-of-payment message string
+    function buildProofMessage() {
+      if (!currentPackage || !currentBankName || !currentAccountName || !currentAccountNumber) {
+        return 'Fill your details, choose a package and select a payment method to generate your proof message.';
+      }
+
+      const name = userFullName || userUsername || 'Animo User';
+      const username = userUsername || '-';
+      const phone = userPhone || '-';
+      const email = userEmail || '-';
+      const amount = currentPackage.amountNGN || '-';
+      const planName = currentPackage.name || 'Selected Plan';
+
+      return (
+        'Hello Animo Support, please verify my Animo Website payment.\n' +
+        'Name: ' + name + '\n' +
+        'Username: ' + username + '\n' +
+        'Phone: ' + phone + '\n' +
+        'Email: ' + email + '\n' +
+        'Selected Plan: ' + planName + '\n' +
+        'Amount: ' + amount + '\n\n' +
+        'Payment Details I used:\n' +
+        'Account number: ' + currentAccountNumber + '\n' +
+        'Account Name: ' + currentAccountName + '\n' +
+        'Bank: ' + currentBankName + '\n\n' +
+        'Please confirm my payment. I will upload my proof of payment now (picture/screenshot/file/pdf).'
+      );
+    }
+
+    // Update proof block + links
+    function updateProofSection() {
+      const msg = buildProofMessage();
+      proofMessageEl.textContent = msg;
+
+      const encodedMsg = encodeURIComponent(msg);
+
+      // Update links (replace numbers / emails with your real ones later)
+      emailProofLink.href =
+        'mailto:animo.support@example.com'
+        + '?subject=' + encodeURIComponent('Animo Website Payment Proof')
+        + '&body=' + encodedMsg;
+
+      whatsappProofLink.href =
+        'https://wa.me/2349152304164'
+        + '?text=' + encodedMsg;
+
+      telegramProofLink.href =
+        'https://t.me/AnimoSupportBot?start=' + encodedMsg;
+    }
+
+    // Form submit
+    welcomeForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('fullName').value.trim();
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+
+      userFullName = name;
+      userUsername = username;
+      userEmail = email;
+      userPhone = phone;
+
+      currentName = username || name || 'Animo User';
+      displayUsername.textContent = currentName;
+
+      activationMessage.textContent =
+        currentName +
+        ', your Animo Website account is now reserved. Your profile and wallet are ready, but not active yet. ' +
+        'Once you complete payment for Silver or Gold, your welcome bonus, Snapchat earnings, Yaps rewards and ' +
+        'Walk-to-Earn will start immediately. Don’t leave it hanging – this is the kind of chance people regret ignoring later.';
+
+      hideElement(welcomeFormScreen);
+      showElement(dashboardScreen);
+      schedulePackagePopup();
+    });
+
+    // Clicking dashboard -> open packages
+    dashboardMain.addEventListener('click', () => {
+      if (!anyModalOpen()) openPackageModal();
+    });
+
+    // Close buttons
+    document.querySelectorAll('[data-close]').forEach(btn => {
+      btn.addEventListener('click', () => hideModal(btn.getAttribute('data-close')));
+    });
+
+    // Click outside panel to close
+    ['packageModal','methodModal'].forEach(id => {
+      const modal = document.getElementById(id);
+      modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(id); });
+    });
+
+    // Package selection
+    function handlePackageClick(name, amountNGN, amountUSD) {
+      currentPackage = { name, amountNGN, amountUSD };
+      document.getElementById('summaryPackageNameMethod').textContent = name;
+      document.getElementById('summaryPackageAmountMethod').textContent = `${amountNGN} (${amountUSD})`;
+      hideModal('packageModal');
+      showModal('methodModal');
+    }
+    window.handlePackageClick = handlePackageClick;
+
+    function backToPackage() {
+      hideModal('methodModal');
+      showModal('packageModal');
+    }
+    window.backToPackage = backToPackage;
+
+    // Payment method selection
+    const methodOpay   = document.getElementById('methodOpay');
+    const methodBanks  = document.getElementById('methodBanks');
+    const methodForeign = document.getElementById('methodForeign');
+
+    const methodDetailsOpay   = document.getElementById('methodDetailsOpay');
+    const methodDetailsBanks  = document.getElementById('methodDetailsBanks');
+    const methodDetailsForeign = document.getElementById('methodDetailsForeign');
+    const methodProofBox      = document.getElementById('methodProofBox');
+
+    function clearMethodStyles() {
+      [methodOpay, methodBanks, methodForeign].forEach(btn => {
+        btn.classList.remove('border-emerald-400','bg-emerald-500/10');
+      });
+      methodDetailsOpay.classList.add('hidden');
+      methodDetailsBanks.classList.add('hidden');
+      methodDetailsForeign.classList.add('hidden');
+      methodProofBox.classList.add('hidden');
+    }
+
+    methodOpay.addEventListener('click', () => {
+      clearMethodStyles();
+      methodOpay.classList.add('border-emerald-400','bg-emerald-500/10');
+      methodDetailsOpay.classList.remove('hidden');
+
+      // Set current payment details for proof
+      currentBankName = document.getElementById('opayBankTxt').textContent.trim();
+      currentAccountName = document.getElementById('opayAccountNameTxt').textContent.trim();
+      currentAccountNumber = document.getElementById('opayAccountNumberTxt').textContent.trim();
+
+      methodProofBox.classList.remove('hidden');
+      updateProofSection();
+    });
+
+    methodBanks.addEventListener('click', () => {
+      clearMethodStyles();
+      methodBanks.classList.add('border-emerald-400','bg-emerald-500/10');
+      methodDetailsBanks.classList.remove('hidden');
+
+      currentBankName = document.getElementById('bankBankTxt').textContent.trim();
+      currentAccountName = document.getElementById('bankAccountNameTxt').textContent.trim();
+      currentAccountNumber = document.getElementById('bankAccountNumberTxt').textContent.trim();
+
+      methodProofBox.classList.remove('hidden');
+      updateProofSection();
+    });
+
+    methodForeign.addEventListener('click', () => {
+      clearMethodStyles();
+      methodForeign.classList.add('border-emerald-400','bg-emerald-500/10');
+      methodDetailsForeign.classList.remove('hidden');
+      // foreign uses DM only, proof handled via chat, no local proof box
+    });
   </script>
 </body>
 </html>
