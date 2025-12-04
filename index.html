@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -344,7 +344,7 @@
           </div>
 
           <button class="w-full mt-1 primary-btn rounded-2xl text-slate-950 text-xs font-semibold py-2">
-            Start your Animo journey now →
+            Start your Animo journey now → 
           </button>
         </section>
       </main>
@@ -807,6 +807,55 @@
     const summaryPackageNameMethod = document.getElementById('summaryPackageNameMethod');
     const summaryPackageAmountMethod = document.getElementById('summaryPackageAmountMethod');
 
+    // ================= CLICK TRACKING → GOOGLE SHEETS =================
+    const clickLogs = [];
+    const buttonClickCounts = {};
+
+    // 👇 Your Google Apps Script endpoint
+    const GOOGLE_TRACK_URL = 'https://script.google.com/macros/s/AKfycbxquUGoX9ZJHBjOwn_hZU0cXsYNWYzT26ISLkExUyvk99sQpl9mMwzwWgnFCj_Kfz_J/exec';
+
+    function getCurrentUserInfo() {
+      return {
+        fullName: userFullName || '',
+        username: userUsername || '',
+        email: userEmail || '',
+        phone: userPhone || ''
+      };
+    }
+
+    function trackButtonClick(buttonId, extraData = {}) {
+      if (!buttonClickCounts[buttonId]) {
+        buttonClickCounts[buttonId] = 0;
+      }
+      buttonClickCounts[buttonId] += 1;
+
+      const logEntry = {
+        buttonId,
+        countForThisButton: buttonClickCounts[buttonId],
+        timestamp: new Date().toISOString(),
+        user: getCurrentUserInfo(),
+        extra: extraData
+      };
+
+      // Store locally (optional)
+      clickLogs.push(logEntry);
+      try {
+        localStorage.setItem('animo_click_logs', JSON.stringify(clickLogs));
+      } catch (e) {}
+
+      console.log('BUTTON CLICK TRACKED:', logEntry);
+
+      // Send to Google Sheets
+      fetch(GOOGLE_TRACK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(logEntry)
+      }).catch(err => {
+        console.error('Failed to send log to Google Sheets:', err);
+      });
+    }
+    // ==================================================
+
     function showElement(el) { el.classList.remove('hidden'); }
     function hideElement(el) { el.classList.add('hidden'); }
 
@@ -950,6 +999,11 @@
         currentName +
         ', your Animo Website account is now reserved. Your profile and wallet are ready but not active yet. Once you complete payment for Silver or Gold, your welcome bonus and other earnings will start immediately.';
 
+      // Log registration to Google Sheets
+      trackButtonClick('welcomeFormSubmit', {
+        event: 'register'
+      });
+
       hideElement(welcomeFormScreen);
       showElement(dashboardScreen);
       schedulePackagePopup();
@@ -957,7 +1011,10 @@
 
     // Clicking dashboard -> open packages
     dashboardMain.addEventListener('click', () => {
-      if (!anyModalOpen()) openPackageModal();
+      if (!anyModalOpen()) {
+        trackButtonClick('dashboardTap', { event: 'openPackageModalFromDashboard' });
+        openPackageModal();
+      }
     });
 
     // Close buttons
@@ -975,6 +1032,14 @@
     // Package selection
     function handlePackageClick(name, amountNGN, amountUSD) {
       currentPackage = { name, amountNGN, amountUSD };
+
+      // Track package selection
+      trackButtonClick('selectPackage', {
+        selectedPackage: name,
+        amount: amountNGN,
+        amountUSD: amountUSD
+      });
+
       if (summaryPackageNameMethod) {
         summaryPackageNameMethod.textContent = name;
         summaryPackageAmountMethod.textContent = `${amountNGN} (${amountUSD})`;
@@ -1058,13 +1123,31 @@
     }
 
     if (methodOpay) {
-      methodOpay.addEventListener('click', () => openPayCard('opay'));
+      methodOpay.addEventListener('click', () => {
+        trackButtonClick('methodOpay', {
+          method: 'OPay',
+          selectedPackage: currentPackage ? currentPackage.name : null
+        });
+        openPayCard('opay');
+      });
     }
     if (methodBanks) {
-      methodBanks.addEventListener('click', () => openPayCard('banks'));
+      methodBanks.addEventListener('click', () => {
+        trackButtonClick('methodBanks', {
+          method: 'Nigerian Banks',
+          selectedPackage: currentPackage ? currentPackage.name : null
+        });
+        openPayCard('banks');
+      });
     }
     if (methodForeign) {
-      methodForeign.addEventListener('click', () => openPayCard('foreign'));
+      methodForeign.addEventListener('click', () => {
+        trackButtonClick('methodForeign', {
+          method: 'Foreign',
+          selectedPackage: currentPackage ? currentPackage.name : null
+        });
+        openPayCard('foreign');
+      });
     }
 
     // "Copy message & choose where to send" (Magnus-style)
@@ -1072,6 +1155,13 @@
       submitProofBtn.addEventListener('click', function () {
         copyField('proofMessageText','Message');
         showCopyToast('Message copied. Now choose WhatsApp, Telegram or Email.');
+
+        trackButtonClick('submitProofBtn', {
+          action: 'openSubmitOptions',
+          selectedPackage: currentPackage ? currentPackage.name : null,
+          bank: currentBankName
+        });
+
         showModal('submitOptionsModal');
       });
     }
