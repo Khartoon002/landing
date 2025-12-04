@@ -394,7 +394,7 @@
         </div>
 
         <p class="text-[11px] text-slate-400 mb-3">
-          Your account is already created. Pick a package to activate it. The faster you activate, the faster your cashback and rewards start dropping.
+          Your account is ready. Pick a package to activate it.
         </p>
 
         <div class="grid grid-cols-1 gap-2 text-xs">
@@ -407,7 +407,7 @@
               <div>
                 <p class="text-xs font-semibold text-slate-100">🩶 Animo Silver</p>
                 <p class="text-[11px] text-slate-400 mt-0.5">
-                  Activation ₦10,000 with instant cashback and starter rewards for Yaps, snaps and steps.
+                  ₦10,000 entry plan with instant cashback and starter rewards.
                 </p>
               </div>
               <div class="text-right">
@@ -426,7 +426,7 @@
               <div>
                 <p class="text-xs font-semibold text-amber-300">💛 Animo Gold</p>
                 <p class="text-[11px] text-slate-400 mt-0.5">
-                  Activation ₦15,000 with higher earnings and more active features unlocked.
+                  ₦15,000 plan with higher daily earnings and more features.
                 </p>
               </div>
               <div class="text-right">
@@ -438,7 +438,7 @@
         </div>
 
         <p class="mt-3 text-[10px] text-slate-500">
-          Start with what you can afford now. You can always upgrade later inside Animo.
+          You can upgrade later inside Animo.
         </p>
       </div>
     </div>
@@ -464,7 +464,7 @@
 
         <div class="rounded-2xl bg-slate-900/80 border border-emerald-500/40 px-3 py-2.5 text-xs mb-3">
           <p class="text-[11px] text-slate-300 mb-1">
-            Selected Package:
+            Package:
             <span id="summaryPackageNameMethod" class="font-semibold text-emerald-300"></span>
           </p>
           <p class="text-[11px] text-slate-400">
@@ -473,36 +473,115 @@
           </p>
         </div>
 
-        <p class="text-[11px] text-slate-400 mb-2">
-          Pick how you want to pay. Once we confirm your transfer, your Animo Website account will move from <span class="text-emerald-300 font-semibold">pending</span> to <span class="text-emerald-300 font-semibold">active</span>.
+        <p class="text-[11px] text-slate-400 mb-3">
+          Choose how you want to pay. After payment, you’ll send a simple proof message.
         </p>
 
-        <div class="grid grid-cols-3 gap-2 text-[11px] mb-3">
+        <!-- Compact payment method cards (Magnus-style) -->
+        <div class="space-y-2 mb-1 text-[11px]">
+          <!-- OPay -->
           <button id="methodOpay"
-                  class="rounded-2xl border border-slate-700 bg-slate-900/80 px-2 py-2 flex flex-col items-center gap-1">
-            <span>🟢</span>
-            <span>OPay</span>
+                  type="button"
+                  class="w-full flex items-center justify-between rounded-2xl bg-emerald-500/10 border border-emerald-400/70 px-3 py-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-full bg-emerald-400 grid place-items-center text-slate-900 text-[11px] font-bold">
+                OP
+              </span>
+              <div class="text-left">
+                <p class="text-[11px] font-semibold text-slate-100">OPay Bank</p>
+                <p class="text-[10px] text-slate-400">
+                  For OPay users in Nigeria.
+                </p>
+              </div>
+            </div>
+            <span class="text-[10px] font-semibold text-emerald-300">Use</span>
           </button>
+
+          <!-- Other Nigerian Banks -->
           <button id="methodBanks"
-                  class="rounded-2xl border border-slate-700 bg-slate-900/80 px-2 py-2 flex flex-col items-center gap-1">
-            <span>🏦</span>
-            <span>Other Banks</span>
+                  type="button"
+                  class="w-full flex items-center justify-between rounded-2xl bg-slate-900/80 border border-slate-700 hover:border-emerald-400/70 px-3 py-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-full bg-slate-100 grid place-items-center">
+                🏦
+              </span>
+              <div class="text-left">
+                <p class="text-[11px] font-semibold text-slate-100">Other Banks</p>
+                <p class="text-[10px] text-slate-400">
+                  Normal bank transfer.
+                </p>
+              </div>
+            </div>
+            <span class="text-[10px] font-semibold text-slate-200">Use</span>
           </button>
+
+          <!-- Foreign -->
           <button id="methodForeign"
-                  class="rounded-2xl border border-slate-700 bg-slate-900/80 px-2 py-2 flex flex-col items-center gap-1">
-            <span>🌍</span>
-            <span>Foreign</span>
+                  type="button"
+                  class="w-full flex items-center justify-between rounded-2xl bg-slate-900/80 border border-blue-500/60 hover:border-blue-400 px-3 py-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-full bg-blue-500 grid place-items-center text-slate-900 text-[11px] font-bold">
+                🌍
+              </span>
+              <div class="text-left">
+                <p class="text-[11px] font-semibold text-slate-100">Outside Nigeria</p>
+                <p class="text-[10px] text-slate-400">
+                  Message us for a foreign link.
+                </p>
+              </div>
+            </div>
+            <span class="text-[10px] font-semibold text-blue-200">DM</span>
           </button>
         </div>
 
-        <!-- OPay -->
-        <div id="methodDetailsOpay" class="hidden rounded-2xl bg-slate-900/80 border border-emerald-500/30 px-3 py-3 text-xs space-y-1.5 mb-3">
+        <p class="text-[10px] text-slate-500">
+          Once you click a method, your payment details will appear next.
+        </p>
+      </div>
+    </div>
+
+    <!-- ============ MODAL 3: PAYMENT CARD (Magnus-style card, Animo colors) ============ -->
+    <div id="payCardModal"
+         class="modal-overlay hidden fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 transition-opacity duration-200">
+      <div class="modal-panel w-full max-w-md bg-animo-panel rounded-3xl p-5 pb-6 border border-slate-800 shadow-soft">
+        <div class="flex items-center justify-between mb-2">
+          <button onclick="backToMethods()"
+                  class="w-8 h-8 rounded-full bg-slate-900/80 border border-slate-700 flex items-center justify-center text-slate-200 text-sm">
+            ←
+          </button>
+          <div class="flex-1 text-center">
+            <p class="text-[11px] text-emerald-300 uppercase tracking-[0.2em]">Step 3 of 3</p>
+            <h2 id="payCardTitle" class="text-base font-semibold mt-0.5">Complete your payment</h2>
+          </div>
+          <button data-close="payCardModal"
+                  class="w-8 h-8 rounded-full bg-slate-900/80 border border-slate-700 flex items-center justify-center text-slate-300 text-sm">
+            ✕
+          </button>
+        </div>
+
+        <div class="rounded-2xl bg-slate-900/80 border border-emerald-500/40 px-3 py-2.5 text-xs mb-3">
+          <p class="text-[11px] text-slate-300 mb-1">
+            Package:
+            <span id="summaryPackageNamePayCard" class="font-semibold text-emerald-300"></span>
+          </p>
+          <p class="text-[11px] text-slate-400">
+            Amount:
+            <span id="summaryPackageAmountPayCard" class="font-semibold text-slate-200"></span>
+          </p>
+        </div>
+
+        <p id="payCardIntro" class="text-[11px] text-slate-400 mb-3">
+          Hi <span id="payCardUserName" class="font-semibold text-slate-100">there</span>, use the details below to pay and keep your receipt.
+        </p>
+
+        <!-- OPay details (card-style) -->
+        <div id="payCardDetailsOpay" class="hidden rounded-2xl bg-slate-900/80 border border-emerald-500/30 px-3 py-3 text-xs space-y-1.5 mb-3">
           <p class="font-semibold text-emerald-300 text-[11px]">Pay with OPay (Nigeria)</p>
 
           <p class="flex items-center justify-between gap-2">
             <span>
               <span class="text-slate-400">Bank:</span>
-              <span id="opayBankTxt" class="font-semibold text-slate-100">Kredi Money Mfb Ltd </span>
+              <span id="opayBankTxt" class="font-semibold text-slate-100">Kredi Money Mfb Ltd</span>
             </span>
             <button class="text-[10px] px-2 py-0.5 rounded-full border border-emerald-400/60 bg-slate-900/80"
                     onclick="copyField('opayBankTxt','Bank')">
@@ -533,12 +612,12 @@
           </p>
 
           <p class="text-[10px] text-emerald-300 mt-1">
-            Copy these details, make your transfer and keep the receipt for confirmation. <b><br> DOESNT WORK? PLEASE USE ANOTHER ACCOUNT FOR PAYMENT</br></b>
+            Send your transfer and keep your receipt.
           </p>
         </div>
 
-        <!-- Other Banks -->
-        <div id="methodDetailsBanks" class="hidden rounded-2xl bg-slate-900/80 border border-slate-700 px-3 py-3 text-xs space-y-1.5 mb-3">
+        <!-- Other Banks details -->
+        <div id="payCardDetailsBanks" class="hidden rounded-2xl bg-slate-900/80 border border-slate-700 px-3 py-3 text-xs space-y-1.5 mb-3">
           <p class="font-semibold text-slate-100 text-[11px]">Pay with Nigerian Banks</p>
 
           <p class="flex items-center justify-between gap-2">
@@ -575,109 +654,110 @@
           </p>
 
           <p class="text-[10px] text-slate-400 mt-1">
-            Use your mobile app or internet banking. As soon as we see your transfer, we will activate your Animo account.
+            Transfer the package amount, then send proof.
           </p>
         </div>
 
-        <!-- Foreign DM -->
-        <div id="methodDetailsForeign" class="hidden rounded-2xl bg-slate-900/80 border border-blue-400/40 px-3 py-3 text-xs space-y-2 mb-3">
+        <!-- Foreign DM: simplified -->
+        <div id="payCardDetailsForeign" class="hidden rounded-2xl bg-slate-900/80 border border-blue-400/40 px-3 py-3 text-xs space-y-2 mb-3">
           <p class="font-semibold text-slate-100 text-[11px]">Paying from outside Nigeria?</p>
           <p class="text-[11px] text-slate-300">
-            Send us a quick DM for a secure foreign payment link and amount in your currency.
+            Tap the button below to message support for a secure foreign payment link.
           </p>
-          <p class="text-[10px] text-slate-400">Copy or send this message:</p>
-          <div class="bg-slate-950/80 rounded-2xl border border-slate-700 px-3 py-2 text-[10px] text-slate-200 flex items-start justify-between gap-2">
-            <span id="foreignDmText">
-              Hello Animo team, I want to pay for my selected package from my country. Please send me the secure foreign
-              payment link and the amount in my local currency.
-            </span>
-            <button class="shrink-0 text-[10px] px-2 py-0.5 mt-0.5 rounded-full border border-emerald-400/60 bg-slate-900/80"
-                    onclick="copyField('foreignDmText','Message')">
-              Copy
-            </button>
-          </div>
 
-          <p class="text-[11px] text-slate-300 mt-1">Send this DM via:</p>
-          <div class="grid grid-cols-3 gap-2 text-[11px]">
-            <a id="foreignWhatsAppLink"
-               href="https://wa.me/2349152304164?text=Hello%20Animo%20team%2C%20I%20want%20to%20pay%20for%20my%20selected%20package%20from%20my%20country.%20Please%20send%20me%20the%20secure%20foreign%20payment%20link%20and%20the%20amount%20in%20my%20local%20currency."
-               target="_blank"
-               class="rounded-2xl bg-slate-900/80 border border-emerald-400/50 px-2 py-2 flex flex-col items-center gap-1">
-              <span>🟢</span>
-              <span>WhatsApp</span>
-            </a>
-            <a id="foreignTelegramLink"
-               href="https://t.me/magnusvemdor"
-               target="_blank"
-               class="rounded-2xl bg-slate-900/80 border border-slate-700 px-2 py-2 flex flex-col items-center gap-1">
-              <span>📨</span>
-              <span>Telegram</span>
-            </a>
-            <a id="foreignEmailLink"
-               href="mailto:animo.support@example.com?subject=Foreign%20Payment%20Request&body=Hello%20Animo%20team%2C%20I%20want%20to%20pay%20for%20my%20selected%20package%20from%20my%20country.%20Please%20send%20me%20the%20secure%20foreign%20payment%20link%20and%20the%20amount%20in%20my%20local%20currency."
-               class="rounded-2xl bg-slate-900/80 border border-slate-700 px-2 py-2 flex flex-col items-center gap-1">
-              <span>✉️</span>
-              <span>Email</span>
-            </a>
-          </div>
+          <a id="foreignWhatsAppLink"
+             href="https://wa.me/2349152304164?text=Hello%20Animo%20team%2C%20I%20want%20to%20pay%20for%20my%20selected%20package%20from%20my%20country.%20Please%20send%20me%20the%20secure%20foreign%20payment%20link%20and%20the%20amount%20in%20my%20local%20currency."
+             target="_blank"
+             class="w-full rounded-2xl bg-emerald-500/10 border border-emerald-400/60 px-3 py-2.5 flex items-center justify-center gap-2 text-[11px]">
+            <span>🟢</span>
+            <span class="font-semibold">Message on WhatsApp</span>
+          </a>
 
           <p class="text-[10px] text-slate-500">
-            After you pay with the foreign link, screenshot the payment page and send it as proof for activation.
+            Support will reply with the exact amount and link in your currency.
           </p>
         </div>
 
-        <!-- Proof submission (local) -->
-        <div id="methodProofBox" class="hidden border-t border-slate-800 pt-3">
+        <!-- Proof submission (local) – Magnus-style but compact -->
+        <div id="payCardProofBox" class="border-t border-slate-800 pt-3 mt-1">
           <p class="text-[11px] text-slate-400 mb-1">
-            After payment, use this short message when sending your proof:
+            After payment, send this message with your screenshot:
           </p>
 
           <div class="bg-slate-950/80 rounded-2xl border border-slate-700 px-3 py-2 text-[10px] text-slate-200 flex items-start justify-between gap-2 mb-2">
-            <span id="proofMessageText">
-              <!-- Filled dynamically -->
-            </span>
+            <span id="proofMessageText"></span>
             <button class="shrink-0 text-[10px] px-2 py-0.5 mt-0.5 rounded-full border border-emerald-400/60 bg-slate-900/80"
                     onclick="copyField('proofMessageText','Message')">
               Copy
             </button>
           </div>
 
-          <!-- New: explicit "Submit proof" button, then channels (same login style as Magnus) -->
           <button id="submitProofBtn"
                   type="button"
-                  class="w-full mb-3 primary-btn rounded-2xl text-slate-950 text-[11px] font-semibold py-2">
-            Submit payment proof
+                  class="w-full mb-2 primary-btn rounded-2xl text-slate-950 text-[11px] font-semibold py-2">
+            Copy message & choose where to send
           </button>
 
-          <p class="text-[11px] text-slate-400 mb-2">
-            Then choose how you want to send it with your screenshot:
-          </p>
-          <div class="grid grid-cols-3 gap-2 text-[11px]">
-            <a id="emailProofLink"
-               href="#"
-               class="rounded-2xl bg-slate-900/80 border border-slate-700 px-2 py-2 flex flex-col items-center gap-1">
-              <span>✉️</span>
-              <span>Email</span>
-            </a>
-            <a id="whatsappProofLink"
-               href="#"
-               target="_blank"
-               class="rounded-2xl bg-slate-900/80 border border-emerald-400/50 px-2 py-2 flex flex-col items-center gap-1">
-              <span>🟢</span>
-              <span>WhatsApp</span>
-            </a>
-            <a id="telegramProofLink"
-               href="#"
-               target="_blank"
-               class="rounded-2xl bg-slate-900/80 border border-slate-700 px-2 py-2 flex flex-col items-center gap-1">
-              <span>📨</span>
-              <span>Telegram</span>
-            </a>
-          </div>
-          <p class="mt-2 text-[10px] text-slate-500">
-            Replace these contacts with your real Animo Website support links if needed.
+          <p class="text-[10px] text-slate-500">
+            Next step: pick WhatsApp, Telegram or Email to submit your proof.
           </p>
         </div>
+      </div>
+    </div>
+
+    <!-- ============ MODAL 4: SUBMIT OPTIONS (WhatsApp / Telegram / Email) ============ -->
+    <div id="submitOptionsModal"
+         class="modal-overlay hidden fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 transition-opacity duration-200">
+      <div class="modal-panel w-full max-w-sm bg-animo-panel rounded-3xl p-5 pb-6 border border-slate-800 shadow-soft">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="text-base font-semibold">Choose how to submit</h2>
+          <button data-close="submitOptionsModal"
+                  class="w-8 h-8 rounded-full bg-slate-900/80 border border-slate-700 flex items-center justify-center text-slate-300 text-sm">
+            ✕
+          </button>
+        </div>
+
+        <p class="text-[11px] text-slate-400 mb-3">
+          We already filled your message. Tap any option below, paste your screenshot and send.
+        </p>
+
+        <div class="space-y-2 text-[11px]">
+          <a id="whatsappProofLink"
+             href="#"
+             target="_blank"
+             class="w-full flex items-center justify-between rounded-2xl bg-emerald-500/10 border border-emerald-400/60 px-3 py-2.5">
+            <div class="flex items-center gap-2">
+              <span>🟢</span>
+              <span class="font-semibold text-slate-100">WhatsApp</span>
+            </div>
+            <span class="text-[10px] text-emerald-300 font-semibold">Fast</span>
+          </a>
+
+          <a id="telegramProofLink"
+             href="#"
+             target="_blank"
+             class="w-full flex items-center justify-between rounded-2xl bg-slate-900/80 border border-slate-700 px-3 py-2.5">
+            <div class="flex items-center gap-2">
+              <span>📨</span>
+              <span class="font-semibold text-slate-100">Telegram</span>
+            </div>
+            <span class="text-[10px] text-slate-300 font-semibold">Preferred</span>
+          </a>
+
+          <a id="emailProofLink"
+             href="#"
+             class="w-full flex items-center justify-between rounded-2xl bg-slate-900/80 border border-slate-700 px-3 py-2.5">
+            <div class="flex items-center gap-2">
+              <span>✉️</span>
+              <span class="font-semibold text-slate-100">Email</span>
+            </div>
+            <span class="text-[10px] text-slate-300 font-semibold">Formal</span>
+          </a>
+        </div>
+
+        <p class="mt-3 text-[10px] text-slate-500">
+          You can replace these contact links with your real Animo support details.
+        </p>
       </div>
     </div>
 
@@ -714,11 +794,25 @@
     const telegramProofLink = document.getElementById('telegramProofLink');
     const submitProofBtn = document.getElementById('submitProofBtn');
 
+    const summaryPackageNamePayCard = document.getElementById('summaryPackageNamePayCard');
+    const summaryPackageAmountPayCard = document.getElementById('summaryPackageAmountPayCard');
+    const payCardUserNameEl = document.getElementById('payCardUserName');
+    const payCardTitleEl = document.getElementById('payCardTitle');
+    const payCardProofBox = document.getElementById('payCardProofBox');
+
+    const payCardDetailsOpay = document.getElementById('payCardDetailsOpay');
+    const payCardDetailsBanks = document.getElementById('payCardDetailsBanks');
+    const payCardDetailsForeign = document.getElementById('payCardDetailsForeign');
+
+    const summaryPackageNameMethod = document.getElementById('summaryPackageNameMethod');
+    const summaryPackageAmountMethod = document.getElementById('summaryPackageAmountMethod');
+
     function showElement(el) { el.classList.remove('hidden'); }
     function hideElement(el) { el.classList.add('hidden'); }
 
     function showModal(id) {
       const modal = document.getElementById(id);
+      if (!modal) return;
       const panel = modal.querySelector('.modal-panel');
       modal.classList.remove('hidden');
       requestAnimationFrame(() => {
@@ -729,15 +823,19 @@
 
     function hideModal(id) {
       const modal = document.getElementById(id);
+      if (!modal) return;
       const panel = modal.querySelector('.modal-panel');
-      if (!modal.classList.contains('visible')) return;
+      if (!modal.classList.contains('visible')) {
+        modal.classList.add('hidden');
+        return;
+      }
       panel.classList.remove('visible');
       modal.classList.remove('visible');
       setTimeout(() => modal.classList.add('hidden'), 180);
     }
 
     function anyModalOpen() {
-      return ['packageModal','methodModal'].some(id => {
+      return ['packageModal','methodModal','payCardModal','submitOptionsModal'].some(id => {
         const m = document.getElementById(id);
         return m && m.classList.contains('visible');
       });
@@ -782,7 +880,7 @@
     }
     window.copyField = copyField;
 
-    // Build proof-of-payment message string (same login style used on Magnus)
+    // Build proof-of-payment message string (Magnus-style content, Animo context)
     function buildProofMessage() {
       if (!currentPackage || !currentBankName || !currentAccountName || !currentAccountNumber) {
         return 'Fill your details, choose a package and select a payment method to generate your proof message.';
@@ -868,16 +966,27 @@
     });
 
     // Click outside panel to close
-    ['packageModal','methodModal'].forEach(id => {
+    ['packageModal','methodModal','payCardModal','submitOptionsModal'].forEach(id => {
       const modal = document.getElementById(id);
+      if (!modal) return;
       modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(id); });
     });
 
     // Package selection
     function handlePackageClick(name, amountNGN, amountUSD) {
       currentPackage = { name, amountNGN, amountUSD };
-      document.getElementById('summaryPackageNameMethod').textContent = name;
-      document.getElementById('summaryPackageAmountMethod').textContent = `${amountNGN} (${amountUSD})`;
+      if (summaryPackageNameMethod) {
+        summaryPackageNameMethod.textContent = name;
+        summaryPackageAmountMethod.textContent = `${amountNGN} (${amountUSD})`;
+      }
+      if (summaryPackageNamePayCard) {
+        summaryPackageNamePayCard.textContent = name;
+        summaryPackageAmountPayCard.textContent = `${amountNGN} (${amountUSD})`;
+      }
+      if (payCardUserNameEl) {
+        const n = currentName || userFullName || userUsername || 'Animo User';
+        payCardUserNameEl.textContent = n;
+      }
       hideModal('packageModal');
       showModal('methodModal');
     }
@@ -889,69 +998,83 @@
     }
     window.backToPackage = backToPackage;
 
+    function backToMethods() {
+      hideModal('payCardModal');
+      showModal('methodModal');
+    }
+    window.backToMethods = backToMethods;
+
     // Payment method selection
     const methodOpay   = document.getElementById('methodOpay');
     const methodBanks  = document.getElementById('methodBanks');
     const methodForeign = document.getElementById('methodForeign');
 
-    const methodDetailsOpay   = document.getElementById('methodDetailsOpay');
-    const methodDetailsBanks  = document.getElementById('methodDetailsBanks');
-    const methodDetailsForeign = document.getElementById('methodDetailsForeign');
-    const methodProofBox      = document.getElementById('methodProofBox');
-
-    function clearMethodStyles() {
-      [methodOpay, methodBanks, methodForeign].forEach(btn => {
-        btn.classList.remove('border-emerald-400','bg-emerald-500/10');
-      });
-      methodDetailsOpay.classList.add('hidden');
-      methodDetailsBanks.classList.add('hidden');
-      methodDetailsForeign.classList.add('hidden');
-      methodProofBox.classList.add('hidden');
+    function clearPayCardDetails() {
+      if (payCardDetailsOpay) payCardDetailsOpay.classList.add('hidden');
+      if (payCardDetailsBanks) payCardDetailsBanks.classList.add('hidden');
+      if (payCardDetailsForeign) payCardDetailsForeign.classList.add('hidden');
     }
 
-    methodOpay.addEventListener('click', () => {
-      clearMethodStyles();
-      methodOpay.classList.add('border-emerald-400','bg-emerald-500/10');
-      methodDetailsOpay.classList.remove('hidden');
+    function openPayCard(method) {
+      // Set title based on method
+      if (payCardTitleEl) {
+        if (method === 'opay') payCardTitleEl.textContent = 'Pay with OPay';
+        else if (method === 'banks') payCardTitleEl.textContent = 'Pay with Nigerian Bank';
+        else if (method === 'foreign') payCardTitleEl.textContent = 'Pay from outside Nigeria';
+        else payCardTitleEl.textContent = 'Complete your payment';
+      }
 
-      // Set current payment details for proof
-      currentBankName = document.getElementById('opayBankTxt').textContent.trim();
-      currentAccountName = document.getElementById('opayAccountNameTxt').textContent.trim();
-      currentAccountNumber = document.getElementById('opayAccountNumberTxt').textContent.trim();
+      const n = currentName || userFullName || userUsername || 'Animo User';
+      if (payCardUserNameEl) payCardUserNameEl.textContent = n;
 
-      methodProofBox.classList.remove('hidden');
-      updateProofSection();
-    });
+      clearPayCardDetails();
 
-    methodBanks.addEventListener('click', () => {
-      clearMethodStyles();
-      methodBanks.classList.add('border-emerald-400','bg-emerald-500/10');
-      methodDetailsBanks.classList.remove('hidden');
+      if (method === 'opay') {
+        if (payCardDetailsOpay) payCardDetailsOpay.classList.remove('hidden');
 
-      currentBankName = document.getElementById('bankBankTxt').textContent.trim();
-      currentAccountName = document.getElementById('bankAccountNameTxt').textContent.trim();
-      currentAccountNumber = document.getElementById('bankAccountNumberTxt').textContent.trim();
+        currentBankName = document.getElementById('opayBankTxt').textContent.trim();
+        currentAccountName = document.getElementById('opayAccountNameTxt').textContent.trim();
+        currentAccountNumber = document.getElementById('opayAccountNumberTxt').textContent.trim();
 
-      methodProofBox.classList.remove('hidden');
-      updateProofSection();
-    });
+        if (payCardProofBox) payCardProofBox.classList.remove('hidden');
+        updateProofSection();
+      } else if (method === 'banks') {
+        if (payCardDetailsBanks) payCardDetailsBanks.classList.remove('hidden');
 
-    methodForeign.addEventListener('click', () => {
-      clearMethodStyles();
-      methodForeign.classList.add('border-emerald-400','bg-emerald-500/10');
-      methodDetailsForeign.classList.remove('hidden');
-      // foreign uses DM only, proof handled via chat, no local proof box
-    });
+        currentBankName = document.getElementById('bankBankTxt').textContent.trim();
+        currentAccountName = document.getElementById('bankAccountNameTxt').textContent.trim();
+        currentAccountNumber = document.getElementById('bankAccountNumberTxt').textContent.trim();
 
-    // Explicit "Submit proof" button – same idea as Magnus flow:
+        if (payCardProofBox) payCardProofBox.classList.remove('hidden');
+        updateProofSection();
+      } else if (method === 'foreign') {
+        if (payCardDetailsForeign) payCardDetailsForeign.classList.remove('hidden');
+        // Foreign payments handled via chat only – no local proof box
+        if (payCardProofBox) payCardProofBox.classList.add('hidden');
+      }
+
+      hideModal('methodModal');
+      showModal('payCardModal');
+    }
+
+    if (methodOpay) {
+      methodOpay.addEventListener('click', () => openPayCard('opay'));
+    }
+    if (methodBanks) {
+      methodBanks.addEventListener('click', () => openPayCard('banks'));
+    }
+    if (methodForeign) {
+      methodForeign.addEventListener('click', () => openPayCard('foreign'));
+    }
+
+    // "Copy message & choose where to send" (Magnus-style)
     if (submitProofBtn) {
       submitProofBtn.addEventListener('click', function () {
-        showCopyToast('Message ready. Now pick WhatsApp, Email or Telegram below.');
+        copyField('proofMessageText','Message');
+        showCopyToast('Message copied. Now choose WhatsApp, Telegram or Email.');
+        showModal('submitOptionsModal');
       });
     }
   </script>
-
-  <!-- Original structure adapted from uploaded Animo file :contentReference[oaicite:0]{index=0} -->
 </body>
 </html>
-
