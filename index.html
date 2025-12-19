@@ -11,14 +11,14 @@
 
   <style>
     :root{
-      --bg:#03040a;
+      --bg:#02030a;
       --text:#ffffff;
       --muted:rgba(255,255,255,.7);
       --muted2:rgba(255,255,255,.55);
       --blue:#3b82f6;
       --blue2:#60a5fa;
       --radius:26px;
-      --shadow:0 30px 90px rgba(0,0,0,.7);
+      --shadow:0 30px 90px rgba(0,0,0,.75);
     }
 
     *{box-sizing:border-box}
@@ -35,7 +35,7 @@
       overflow:hidden;
     }
 
-    /* mouse glow */
+    /* mouse glow follower */
     .glow{
       position:fixed;
       width:520px;height:520px;
@@ -90,16 +90,16 @@
     .subtitle{
       font-size:13px;
       color:var(--muted);
-      max-width:42ch;
+      max-width:44ch;
       margin:0 auto;
       line-height:1.5;
     }
 
     .links{
-      margin-top:20px;
+      margin-top:22px;
       display:flex;
       flex-direction:column;
-      gap:14px;
+      gap:16px;
     }
 
     .btn{
@@ -110,7 +110,7 @@
       border-radius:20px;
       text-decoration:none;
       color:#fff;
-      background:rgba(0,0,0,.35);
+      background:rgba(0,0,0,.38);
       border:1px solid rgba(255,255,255,.14);
       position:relative;
       overflow:hidden;
@@ -122,7 +122,7 @@
       position:absolute;
       inset:0;
       background:radial-gradient(220px 220px at var(--mx,50%) var(--my,50%),
-        rgba(59,130,246,.4),
+        rgba(59,130,246,.45),
         transparent 60%);
       opacity:0;
       transition:opacity .18s ease;
@@ -162,8 +162,8 @@
       font-size:12px;
       color:var(--muted2);
       margin-top:2px;
-      line-height:1.35;
-      max-width:36ch;
+      line-height:1.4;
+      max-width:38ch;
     }
 
     .arrow{opacity:.9}
@@ -197,12 +197,15 @@
 
   <script>
     /**********************
-     * TOGGLE CONTROLS
+     * TOGGLES
      **********************/
     const SETTINGS = {
-      whatsappEnabled: false, // ← change to true anytime
+      whatsappEnabled: false // set to true anytime
     };
 
+    /**********************
+     * LINKS
+     **********************/
     const LINKS = [
       {
         enabled: SETTINGS.whatsappEnabled,
@@ -215,8 +218,8 @@
         enabled: true,
         title: "Telegram",
         icon: "📣",
-        note: "From Animo Website, I'm ready to Get started on Animo, How do I continue and What are the Requirements?",
-        url: "https://t.me/yourtelegram"
+        note: "Tap to start a chat on Telegram",
+        url: "https://t.me/thevendor3?text=From%20Animo%20Website%2C%20I'm%20ready%20to%20get%20started%20on%20Animo.%20How%20do%20I%20continue%20and%20what%20are%20the%20requirements%3F"
       }
     ];
 
@@ -251,7 +254,9 @@
       linksEl.appendChild(a);
     });
 
-    /* mouse glow follow */
+    /**********************
+     * MOUSE GLOW FOLLOW
+     **********************/
     const glow = document.getElementById("glow");
     let x=innerWidth/2, y=innerHeight/2, tx=x, ty=y;
 
@@ -261,7 +266,8 @@
     });
 
     function loop(){
-      x+=(tx-x)*.12; y+=(ty-y)*.12;
+      x+=(tx-x)*.12;
+      y+=(ty-y)*.12;
       glow.style.left=x+"px";
       glow.style.top=y+"px";
       requestAnimationFrame(loop);
