@@ -3,8 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Animo — Quick Links</title>
-  <meta name="description" content="Tap the buttons to get started on Animo." />
+  <title>Animo — Get Started</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,272 +11,166 @@
 
   <style>
     :root{
-      --bg:#04050a;
-      --panel:rgba(255,255,255,.06);
-      --stroke:rgba(255,255,255,.12);
+      --bg:#03040a;
       --text:#ffffff;
-      --muted:rgba(255,255,255,.70);
+      --muted:rgba(255,255,255,.7);
       --muted2:rgba(255,255,255,.55);
       --blue:#3b82f6;
       --blue2:#60a5fa;
       --radius:26px;
-      --shadow: 0 30px 90px rgba(0,0,0,.65);
+      --shadow:0 30px 90px rgba(0,0,0,.7);
     }
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+
     body{
       margin:0;
-      font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-family:Poppins,system-ui,Arial,sans-serif;
       background:
-        radial-gradient(1200px 700px at 20% 10%, rgba(59,130,246,.12), transparent 62%),
-        radial-gradient(900px 600px at 80% 15%, rgba(96,165,250,.10), transparent 62%),
-        radial-gradient(1200px 900px at 50% 110%, rgba(59,130,246,.08), transparent 60%),
-        linear-gradient(180deg, #020309, var(--bg));
+        radial-gradient(1200px 700px at 20% 10%, rgba(59,130,246,.12), transparent 60%),
+        radial-gradient(900px 600px at 80% 20%, rgba(96,165,250,.1), transparent 60%),
+        linear-gradient(180deg,#020309,var(--bg));
       color:var(--text);
-      overflow-x:hidden;
+      overflow:hidden;
     }
 
-    /* mouse glow follower */
+    /* mouse glow */
     .glow{
-      position: fixed;
-      width: 520px;
-      height: 520px;
-      left: 0;
-      top: 0;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      z-index: 0;
-      background: radial-gradient(circle at center,
-        rgba(59,130,246,.26) 0%,
-        rgba(96,165,250,.16) 18%,
-        rgba(59,130,246,.08) 36%,
-        rgba(59,130,246,0) 62%);
-      filter: blur(18px);
-      opacity: 0;
-      transition: opacity .25s ease;
-      mix-blend-mode: screen;
+      position:fixed;
+      width:520px;height:520px;
+      transform:translate(-50%,-50%);
+      pointer-events:none;
+      background:radial-gradient(circle,
+        rgba(59,130,246,.3),
+        rgba(59,130,246,.15),
+        transparent 65%);
+      filter:blur(18px);
+      mix-blend-mode:screen;
+      opacity:0;
+      transition:opacity .25s ease;
+      z-index:0;
     }
 
     .wrap{
-      position:relative;
       min-height:100%;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding: 26px 16px 40px;
-      z-index: 1;
+      padding:24px 16px;
+      position:relative;
+      z-index:1;
     }
 
     .card{
-      width:min(520px, 100%);
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: 22px;
-      position:relative;
-      overflow:hidden;
+      width:min(520px,100%);
       text-align:center;
-    }
-
-    /* grain */
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:-60px;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
-      opacity:.09;
-      transform: rotate(9deg);
-      pointer-events:none;
-      mix-blend-mode: overlay;
-    }
-
-    .logoWrap{
-      width: 100%;
-      display:flex;
-      justify-content:center;
-      margin: 4px 0 14px;
-      position:relative;
+      padding:24px;
+      border-radius:var(--radius);
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(16px);
+      box-shadow:var(--shadow);
     }
 
     .logo{
-      width: min(240px, 70%);
-      aspect-ratio: 1 / 1;
-      border-radius: 24px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.25);
-      box-shadow: 0 18px 60px rgba(0,0,0,.55);
-      object-fit: cover;
+      width:min(240px,70%);
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.14);
+      margin:0 auto 14px;
+      display:block;
     }
 
     h1{
-      margin: 6px 0 6px;
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: .2px;
+      font-size:21px;
+      font-weight:800;
+      margin:8px 0 6px;
     }
 
     .subtitle{
-      margin: 0 auto;
-      max-width: 42ch;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .hint{
-      margin: 14px auto 0;
-      color: var(--muted2);
-      font-size: 12px;
-      line-height: 1.45;
-      max-width: 46ch;
+      font-size:13px;
+      color:var(--muted);
+      max-width:42ch;
+      margin:0 auto;
+      line-height:1.5;
     }
 
     .links{
-      margin-top: 18px;
+      margin-top:20px;
       display:flex;
       flex-direction:column;
-      gap: 12px;
+      gap:14px;
     }
 
     .btn{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 12px;
+      padding:16px;
+      border-radius:20px;
       text-decoration:none;
-      color: var(--text);
-      padding: 14px 14px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.34);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      color:#fff;
+      background:rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.14);
       position:relative;
       overflow:hidden;
-      transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease;
+      transition:.18s ease;
     }
 
     .btn::after{
       content:"";
       position:absolute;
       inset:0;
-      background: radial-gradient(240px 240px at var(--mx, 50%) var(--my, 50%),
-        rgba(59,130,246,.38), rgba(59,130,246,0) 60%);
-      opacity: 0;
-      transition: opacity .18s ease;
-      pointer-events:none;
+      background:radial-gradient(220px 220px at var(--mx,50%) var(--my,50%),
+        rgba(59,130,246,.4),
+        transparent 60%);
+      opacity:0;
+      transition:opacity .18s ease;
     }
 
     .btn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(96,165,250,.55);
-      background: rgba(0,0,0,.38);
-      box-shadow: 0 12px 40px rgba(59,130,246,.12);
+      transform:translateY(-1px);
+      border-color:rgba(96,165,250,.6);
+      box-shadow:0 14px 40px rgba(59,130,246,.15);
     }
 
-    .btn:hover::after{ opacity: 1; }
+    .btn:hover::after{opacity:1}
 
     .left{
       display:flex;
+      gap:14px;
       align-items:center;
-      gap: 12px;
-      min-width:0;
       text-align:left;
     }
 
     .ico{
-      width: 44px;
-      height: 44px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: linear-gradient(135deg, rgba(59,130,246,.16), rgba(96,165,250,.10));
+      width:46px;height:46px;
+      border-radius:16px;
       display:grid;
       place-items:center;
-      flex: 0 0 auto;
-      box-shadow: inset 0 0 0 1px rgba(59,130,246,.08);
-    }
-
-    .labelwrap{ min-width:0; }
-    .label{
-      font-weight: 800;
-      font-size: 14px;
-      line-height: 1.15;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .note{
-      margin-top: 2px;
-      font-size: 12px;
-      color: var(--muted2);
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .arrow{
-      opacity:.9;
-      font-size: 14px;
-      flex: 0 0 auto;
-    }
-
-    .miniRow{
-      margin-top: 14px;
-      display:flex;
-      justify-content:center;
-      gap:10px;
-      flex-wrap: wrap;
-    }
-
-    .tiny{
+      font-size:20px;
+      background:linear-gradient(135deg,rgba(59,130,246,.18),rgba(96,165,250,.1));
       border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.30);
-      color:#fff;
-      padding: 9px 12px;
-      border-radius: 14px;
-      font-size: 12px;
-      cursor:pointer;
-      font-family:inherit;
-      transition: transform .16s ease, border-color .16s ease, background .16s ease;
-    }
-    .tiny:hover{
-      transform: translateY(-1px);
-      border-color: rgba(96,165,250,.55);
-      background: rgba(0,0,0,.36);
     }
 
-    .toast{
-      position:fixed;
-      left:50%;
-      bottom:18px;
-      transform: translateX(-50%) translateY(14px);
-      opacity:0;
-      pointer-events:none;
-      padding:10px 12px;
-      border-radius: 14px;
-      background: rgba(0,0,0,.60);
-      border: 1px solid rgba(255,255,255,.16);
-      color:#fff;
+    .label{
+      font-weight:800;
+      font-size:14px;
+    }
+
+    .note{
       font-size:12px;
-      backdrop-filter: blur(12px);
-      transition: opacity .18s ease, transform .18s ease;
-      z-index: 5;
-    }
-    .toast.show{
-      opacity:1;
-      transform: translateX(-50%) translateY(0px);
+      color:var(--muted2);
+      margin-top:2px;
+      line-height:1.35;
+      max-width:36ch;
     }
 
-    /* better spacing on laptop */
-    @media (min-width: 900px){
-      .card{ padding: 28px; }
-      h1{ font-size: 22px; }
-      .subtitle{ font-size: 13.5px; }
-      .logo{ width: min(260px, 60%); }
+    .arrow{opacity:.9}
+
+    @media(min-width:900px){
+      h1{font-size:23px}
+      .subtitle{font-size:14px}
     }
   </style>
 </head>
@@ -286,164 +179,94 @@
   <div class="glow" id="glow"></div>
 
   <main class="wrap">
-    <section class="card" aria-label="Animo shortlinks">
-      <div class="logoWrap">
-        <!-- Animo Logo (mockup image) -->
-        <img
-          class="logo"
-          src="https://animowebsite.com.ng/wp-content/uploads/2025/10/animo-website.jpg"
-          alt="Animo logo"
-          loading="lazy"
-        />
-      </div>
+    <section class="card">
+      <img
+        class="logo"
+        src="https://animowebsite.com.ng/wp-content/uploads/2025/10/animo-website.jpg"
+        alt="Animo Logo"
+      />
 
       <h1>Welcome to Animo</h1>
       <p class="subtitle">
-        Click on the buttons below to get started for the Animo website.
-      </p>
-      <p class="hint">
-        Choose WhatsApp if you want fast help, or Telegram if you want to join the community and updates.
+        Click the button below to get started on the Animo website.
       </p>
 
       <div class="links" id="links"></div>
-
-      <div class="miniRow">
-        <button class="tiny" id="copyWa">Copy WhatsApp link</button>
-        <button class="tiny" id="copyTg">Copy Telegram link</button>
-      </div>
     </section>
   </main>
 
-  <div class="toast" id="toast">Copied ✅</div>
-
   <script>
     /**********************
-     * EDIT HERE (YOUR LINKS)
+     * TOGGLE CONTROLS
      **********************/
-    const ANIMO = {
-      whatsappShortlink: "https://wa.link/zx83o9",     // <-- replace with your wa.link
-      telegramLink:      "https://t.me/thevendor3" // <-- replace with your Telegram
+    const SETTINGS = {
+      whatsappEnabled: false, // ← change to true anytime
     };
 
     const LINKS = [
       {
-        title: "WhatsApp",
-        note: "Click Here get started",
+        enabled: SETTINGS.whatsappEnabled,
+        title: "WhatsApp (wa.link)",
         icon: "💬",
-        url: ANIMO.whatsappShortlink
+        note: "Chat with us directly on WhatsApp",
+        url: "https://wa.link/yourshortcode"
       },
       {
+        enabled: true,
         title: "Telegram",
-        note: "Get Started for Animo, make sure to go straight to the point",
         icon: "📣",
-        url: ANIMO.telegramLink
+        note: "From Animo Website, I'm ready to Get started on Animo, How do I continue and What are the Requirements?",
+        url: "https://t.me/yourtelegram"
       }
     ];
 
-    /**********************
-     * RENDER BUTTONS
-     **********************/
     const linksEl = document.getElementById("links");
-    LINKS.forEach((l) => {
+
+    LINKS.forEach(l => {
+      if(!l.enabled) return;
+
       const a = document.createElement("a");
       a.className = "btn";
       a.href = l.url;
       a.target = "_blank";
       a.rel = "noopener noreferrer";
+
       a.innerHTML = `
         <div class="left">
-          <div class="ico" aria-hidden="true">${l.icon}</div>
-          <div class="labelwrap">
-            <div class="label">${escapeHtml(l.title)}</div>
-            <div class="note">${escapeHtml(l.note)}</div>
+          <div class="ico">${l.icon}</div>
+          <div>
+            <div class="label">${l.title}</div>
+            <div class="note">${l.note}</div>
           </div>
         </div>
         <div class="arrow">↗</div>
       `;
 
-      // blue hover glow follows cursor inside each button
-      a.addEventListener("mousemove", (e) => {
+      a.addEventListener("mousemove", e => {
         const r = a.getBoundingClientRect();
-        const x = ((e.clientX - r.left) / r.width) * 100;
-        const y = ((e.clientY - r.top) / r.height) * 100;
-        a.style.setProperty("--mx", x + "%");
-        a.style.setProperty("--my", y + "%");
+        a.style.setProperty("--mx", ((e.clientX - r.left)/r.width)*100 + "%");
+        a.style.setProperty("--my", ((e.clientY - r.top)/r.height)*100 + "%");
       });
 
       linksEl.appendChild(a);
     });
 
-    /**********************
-     * MOUSE GLOW FOLLOWER
-     **********************/
+    /* mouse glow follow */
     const glow = document.getElementById("glow");
-    let gx = window.innerWidth / 2, gy = window.innerHeight / 2;
-    let tx = gx, ty = gy;
-    let active = false;
+    let x=innerWidth/2, y=innerHeight/2, tx=x, ty=y;
 
-    window.addEventListener("mousemove", (e) => {
-      tx = e.clientX;
-      ty = e.clientY;
-      active = true;
-      glow.style.opacity = "1";
+    addEventListener("mousemove",e=>{
+      tx=e.clientX; ty=e.clientY;
+      glow.style.opacity=1;
     });
 
-    window.addEventListener("mouseleave", () => {
-      active = false;
-      glow.style.opacity = "0";
-    });
-
-    function animate(){
-      gx += (tx - gx) * 0.12;
-      gy += (ty - gy) * 0.12;
-      glow.style.left = gx + "px";
-      glow.style.top = gy + "px";
-      requestAnimationFrame(animate);
+    function loop(){
+      x+=(tx-x)*.12; y+=(ty-y)*.12;
+      glow.style.left=x+"px";
+      glow.style.top=y+"px";
+      requestAnimationFrame(loop);
     }
-    animate();
-
-    /**********************
-     * COPY BUTTONS
-     **********************/
-    const toast = document.getElementById("toast");
-
-    document.getElementById("copyWa").addEventListener("click", async () => {
-      await copyText(ANIMO.whatsappShortlink);
-      showToast("WhatsApp link copied ✅");
-    });
-
-    document.getElementById("copyTg").addEventListener("click", async () => {
-      await copyText(ANIMO.telegramLink);
-      showToast("Telegram link copied ✅");
-    });
-
-    async function copyText(text){
-      try{
-        await navigator.clipboard.writeText(text);
-      }catch{
-        const t = document.createElement("textarea");
-        t.value = text;
-        document.body.appendChild(t);
-        t.select();
-        document.execCommand("copy");
-        t.remove();
-      }
-    }
-
-    function showToast(msg){
-      toast.textContent = msg;
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 1500);
-    }
-
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
+    loop();
   </script>
 </body>
 </html>
