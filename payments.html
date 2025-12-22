@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Animo — Payment (Nigeria + Foreign)</title>
+  <meta name="description" content="Choose Animo country, package, choose payment method (OPay or Bank where applicable), pay, and submit proof on WhatsApp." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#02030a;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.04);
+      --stroke: rgba(255,255,255,.12);
+      --text:#ffffff;
+      --muted: rgba(255,255,255,.72);
+      --muted2: rgba(255,255,255,.55);
+      --blue:#3b82f6;
+      --blue2:#60a5fa;
+      --radius:26px;
+      --shadow: 0 30px 90px rgba(0,0,0,.75);
+      --shadow2: 0 18px 60px rgba(0,0,0,.6);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+
+    body{
+      margin:0;
+      font-family:Poppins,system-ui,Arial,sans-serif;
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(59,130,246,.14), transparent 60%),
+        radial-gradient(900px 600px at 80% 20%, rgba(96,165,250,.11), transparent 60%),
+        radial-gradient(1200px 900px at 50% 115%, rgba(59,130,246,.08), transparent 60%),
+        linear-gradient(180deg,#020309,var(--bg));
+      color:var(--text);
+      overflow-x:hidden;
+    }
+
+    /* mouse glow follower */
+    .glow{
+      position:fixed;
+      width:520px;height:520px;
+      transform:translate(-50%,-50%);
+      pointer-events:none;
+      background:radial-gradient(circle,
+        rgba(59,130,246,.30),
+        rgba(59,130,246,.16),
+        transparent 65%);
+      filter:blur(18px);
+      mix-blend-mode:screen;
+      opacity:0;
+      transition:opacity .25s ease;
+      z-index:0;
+    }
+
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px 16px 40px;
+      position:relative;
+      z-index:1;
+    }
+
+    .card{
+      width:min(620px,100%);
+      text-align:center;
+      padding:22px;
+      border-radius:var(--radius);
+      background: linear-gradient(180deg, var(--panel), var(--panel2));
+      border:1px solid var(--stroke);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-60px;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+      opacity:.09;
+      transform: rotate(9deg);
+      pointer-events:none;
+      mix-blend-mode: overlay;
+    }
+
+    .logo{
+      width:min(220px,70%);
+      aspect-ratio:1/1;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.14);
+      margin:0 auto 14px;
+      display:block;
+      object-fit:cover;
+      box-shadow: var(--shadow2);
+      background: rgba(0,0,0,.25);
+    }
+
+    h1{font-size:21px;font-weight:800;margin:8px 0 6px;letter-spacing:.1px}
+    .subtitle{font-size:13px;color:var(--muted);max-width:64ch;margin:0 auto;line-height:1.55}
+
+    .links{
+      margin-top:18px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      text-align:left;
+    }
+
+    .btn{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:16px;
+      border-radius:20px;
+      text-decoration:none;
+      color:#fff;
+      background:rgba(0,0,0,.38);
+      border:1px solid rgba(255,255,255,.14);
+      position:relative;
+      overflow:hidden;
+      transition:transform .16s ease, border-color .16s ease, box-shadow .16s ease, background .16s ease;
+      cursor:pointer;
+      user-select:none;
+    }
+
+    .btn::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:radial-gradient(240px 240px at var(--mx,50%) var(--my,50%),
+        rgba(59,130,246,.48),
+        transparent 60%);
+      opacity:0;
+      transition:opacity .18s ease;
+      pointer-events:none;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(96,165,250,.65);
+      box-shadow:0 14px 40px rgba(59,130,246,.14);
+      background:rgba(0,0,0,.42);
+    }
+    .btn:hover::after{opacity:1}
+
+    .left{display:flex;gap:14px;align-items:center;min-width:0}
+    .ico{
+      width:46px;height:46px;border-radius:16px;display:grid;place-items:center;font-size:20px;
+      background:linear-gradient(135deg,rgba(59,130,246,.18),rgba(96,165,250,.10));
+      border:1px solid rgba(255,255,255,.14);flex:0 0 auto;
+    }
+    .labelwrap{min-width:0}
+    .label{font-weight:800;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .note{font-size:12px;color:var(--muted2);margin-top:2px;line-height:1.4;max-width:54ch}
+    .arrow{opacity:.9;flex:0 0 auto}
+
+    /* Modal */
+    .modal{
+      position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:18px;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index:9999;
+    }
+    .modal.show{display:flex;}
+    .modalCard{
+      width:min(720px, 100%);
+      border-radius:22px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 30px 90px rgba(0,0,0,.72);
+      overflow:hidden;
+      position:relative;
+    }
+    .modalHead{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .modalTitle{font-weight:900;letter-spacing:.2px;font-size:15px}
+    .xbtn{
+      border:none;background: rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);
+      color:#fff;border-radius:12px;padding:8px 10px;cursor:pointer;font-family:inherit;font-size:12px;
+    }
+    .modalBody{padding:16px}
+
+    .grid2{display:grid;grid-template-columns:1fr;gap:12px}
+    @media (min-width: 820px){ .grid2{grid-template-columns:1fr 1fr;} }
+
+    .pickCard{
+      border-radius:18px;border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.32);padding:14px;cursor:pointer;
+      transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+      position:relative;overflow:hidden;
+    }
+    .pickCard:hover{
+      transform: translateY(-1px);
+      border-color: rgba(96,165,250,.60);
+      box-shadow: 0 12px 40px rgba(59,130,246,.12);
+    }
+
+    .tag{
+      display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;
+      font-weight:800;font-size:11px;border:1px solid rgba(255,255,255,.14);
+      background: rgba(59,130,246,.14);white-space:nowrap;
+    }
+    .price{margin-top:10px;font-weight:900;font-size:20px;letter-spacing:-.2px}
+    .small{margin-top:6px;color: var(--muted2);font-size:12px;line-height:1.45}
+
+    .row{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.26);
+    }
+    .row .k{color:rgba(255,255,255,.70);font-size:12px}
+    .row .v{font-weight:900;font-size:14px}
+    .copyBtn{
+      border:none;background: rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);
+      color:#fff;border-radius:12px;padding:8px 10px;cursor:pointer;font-family:inherit;font-size:12px;flex:0 0 auto;
+    }
+
+    .ctaRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .cta{
+      flex:1 1 240px;border:none;border-radius:18px;padding:14px 14px;
+      font-weight:900;font-size:14px;cursor:pointer;color:#071022;
+      background: linear-gradient(135deg, var(--blue2), var(--blue));
+      box-shadow: 0 18px 50px rgba(59,130,246,.22);
+      font-family:inherit;text-align:center;
+    }
+    .ghost{
+      flex:1 1 240px;border-radius:18px;border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.28);color:#fff;padding:14px 14px;
+      font-weight:900;font-size:14px;cursor:pointer;font-family:inherit;text-align:center;
+    }
+    .count{font-weight:900;color: rgba(96,165,250,.95);font-size:12px;margin-top:4px}
+
+    .toast{
+      position:fixed;left:50%;bottom:18px;transform: translateX(-50%) translateY(14px);
+      opacity:0;pointer-events:none;padding:10px 12px;border-radius: 14px;
+      background: rgba(0,0,0,.62);border: 1px solid rgba(255,255,255,.16);color:#fff;font-size:12px;
+      backdrop-filter: blur(12px);
+      transition: opacity .18s ease, transform .18s ease;
+      z-index: 10010;
+    }
+    .toast.show{opacity:1;transform: translateX(-50%) translateY(0px)}
+  </style>
+</head>
+
+<body>
+  <div class="glow" id="glow"></div>
+
+  <main class="wrap">
+    <section class="card">
+      <img class="logo" src="https://animowebsite.com.ng/wp-content/uploads/2025/10/animo-website.jpg" alt="Animo Logo" />
+      <h1>Animo Payment (Nigeria + Foreign)</h1>
+      <p class="subtitle">
+        Click below to choose your <b>country</b>, select your <b>package</b>, then (for Nigeria) choose <b>OPay</b> or <b>Normal Bank</b>.
+        After payment, click <b>Submit Payment Proof</b> to open WhatsApp with a prefilled message to <b>07087108201</b>.
+      </p>
+
+      <div class="links">
+        <div class="btn" id="startBtn" role="button" tabindex="0" aria-label="Start payment">
+          <div class="left">
+            <div class="ico">💳</div>
+            <div class="labelwrap">
+              <div class="label">Start Payment</div>
+              <div class="note">Country → Package → (Nigeria: OPay/Bank) → Pay → Submit proof (WhatsApp)</div>
+            </div>
+          </div>
+          <div class="arrow">↗</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- COUNTRY -->
+  <div class="modal" id="countryModal" aria-hidden="true">
+    <div class="modalCard">
+      <div class="modalHead">
+        <div class="modalTitle">Select Your Country</div>
+        <button class="xbtn" id="closeCountry">Close</button>
+      </div>
+      <div class="modalBody">
+        <div class="grid2" id="countryGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PACKAGE -->
+  <div class="modal" id="packageModal" aria-hidden="true">
+    <div class="modalCard">
+      <div class="modalHead">
+        <div class="modalTitle">Select Package</div>
+        <button class="xbtn" id="closePackage">Close</button>
+      </div>
+      <div class="modalBody">
+        <div class="small" style="margin-bottom:10px;">Country: <b id="selCountryLabel">—</b></div>
+        <div class="grid2" id="packageGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENT METHOD (Nigeria only) -->
+  <div class="modal" id="methodModal" aria-hidden="true">
+    <div class="modalCard">
+      <div class="modalHead">
+        <div class="modalTitle">Choose Payment Method (Nigeria)</div>
+        <button class="xbtn" id="closeMethod">Close</button>
+      </div>
+      <div class="modalBody">
+        <div class="small" style="margin-bottom:10px;">
+          Package: <b id="selPkgLabel">—</b> • Amount: <b id="selAmtLabel">—</b>
+        </div>
+        <div class="grid2">
+          <div class="pickCard" id="pickOpay">
+            <span class="tag">🟩 OPay</span>
+            <div class="price">OPay Users Only</div>
+            <div class="small">Tap to use OPay payment details.</div>
+          </div>
+          <div class="pickCard" id="pickBank">
+            <span class="tag">🏦 Normal Bank</span>
+            <div class="price">Other Banks Transfer</div>
+            <div class="small">Tap to use normal bank transfer details.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENT DETAILS -->
+  <div class="modal" id="payModal" aria-hidden="true">
+    <div class="modalCard">
+      <div class="modalHead">
+        <div class="modalTitle">Payment Details</div>
+        <button class="xbtn" id="closePay">Close</button>
+      </div>
+      <div class="modalBody">
+        <div class="small" style="margin-bottom:10px;">
+          Country: <b id="pfCountry">—</b> • Package: <b id="pfPackage">—</b> • Amount: <b id="pfAmount">—</b>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="k">Payment channel</div>
+            <div class="v" id="pfChannel">—</div>
+          </div>
+          <button class="copyBtn" data-copy="#pfChannel">Copy</button>
+        </div>
+
+        <div style="height:10px"></div>
+
+        <div class="row">
+          <div>
+            <div class="k">Account / Wallet number</div>
+            <div class="v" id="pfAcctNo">—</div>
+          </div>
+          <button class="copyBtn" data-copy="#pfAcctNo">Copy</button>
+        </div>
+
+        <div style="height:10px"></div>
+
+        <div class="row">
+          <div>
+            <div class="k">Account / Wallet name</div>
+            <div class="v" id="pfAcctName">—</div>
+          </div>
+          <button class="copyBtn" data-copy="#pfAcctName">Copy</button>
+        </div>
+
+        <div style="height:10px"></div>
+
+        <div class="row">
+          <div>
+            <div class="k">Important note</div>
+            <div class="v" id="pfNote" style="font-weight:700;">After payment, submit proof on WhatsApp to 07087108201.</div>
+            <div class="count" id="countdownTimer">01:00:00</div>
+          </div>
+        </div>
+
+        <div class="ctaRow">
+          <button class="cta" id="submitProof">Submit Payment Proof (WhatsApp)</button>
+          <button class="ghost" id="copyAll">Copy All Details</button>
+        </div>
+
+        <div class="small" style="margin-top:10px; text-align:center;">
+          After Payment Send a screenshot of your payment slip and Sender's name for confirmation.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Copied ✅</div>
+
+  <script>
+    /**********************
+     * DATA
+     **********************/
+    const DATA = {
+      proofPhone: "07087108201", // WhatsApp destination
+      countries: [
+        {
+          key: "NG",
+          label: "🇳🇬 Nigeria",
+          packages: { Gold:{ amountText:"₦15,000" }, Silver:{ amountText:"₦10,000" } },
+          paymentMethods: {
+            opay: {
+              channel: "Kredi Money Mfb Ltd",
+              acctNo: "1807561116",
+              acctName: "Clinton Uchenna Spino",
+              note: "Bank: Kredi Money Mfb Ltd (OPay users only)."
+            },
+            bank: {
+              channel: "Moniepoint Bank",
+              acctNo: "6054080105",
+              acctName: "Spino Clinton",
+              note: "Bank: Moniepoint (normal transfer)."
+            }
+          }
+        },
+        {
+          key: "GH",
+          label: "🇬🇭 Ghana",
+          packages: { Gold:{ amountText:"250GHS" }, Silver:{ amountText:"170GHS" } },
+          payment: { channel:"MTN", acctNo:"0531148002", acctName:"Daniel Amoah", note:"" }
+        },
+        {
+          key: "ZA",
+          label: "🇿🇦 South Africa",
+          packages: { Gold:{ amountText:"R370" }, Silver:{ amountText:"R270" } },
+          payment: { channel:"FNB", acctNo:"63096232756", acctName:"Tegha digital (pty)Ltd", note:"Use IMMEDIATE TRANSACTION option to ensure payment is processed instantly and without delay." }
+        },
+        {
+          key: "KE",
+          label: "🇰🇪 Kenya",
+          packages: { Gold:{ amountText:"2700KES" }, Silver:{ amountText:"2000KES" } },
+          payment: { channel:"AIRTEL MONEY", acctNo:"0107494918", acctName:"Mohamed Hadid", note:"" }
+        },
+        {
+          key: "UG",
+          label: "🇺🇬 Uganda",
+          packages: { Gold:{ amountText:"72,000UGX" }, Silver:{ amountText:"52,000UGX" } },
+          payment: { channel:"AIRTEL UGANDA", acctNo:"+256753668856", acctName:"Eriab Wakabi", note:"" }
+        }
+      ]
+    };
+
+    /**********************
+     * STATE
+     **********************/
+    let selectedCountry = null;
+    let selectedPackage = null;
+    let selectedMethodKey = null; // 'opay' | 'bank' (Nigeria only)
+
+    /**********************
+     * HELPERS
+     **********************/
+    const $ = (q) => document.querySelector(q);
+    const toast = $("#toast");
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(()=>toast.classList.remove("show"), 1300);
+    }
+
+    async function copyText(text){
+      try{ await navigator.clipboard.writeText(text); showToast("Copied ✅"); }
+      catch{
+        const t = document.createElement("textarea");
+        t.value = text; document.body.appendChild(t); t.select(); document.execCommand("copy"); t.remove();
+        showToast("Copied ✅");
+      }
+    }
+
+    function openModal(id){ $(id).classList.add("show"); }
+    function closeModal(id){ $(id).classList.remove("show"); }
+
+    function attachButtonGlow(el){
+      el.addEventListener("mousemove", (e) => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty("--mx", ((e.clientX - r.left)/r.width)*100 + "%");
+        el.style.setProperty("--my", ((e.clientY - r.top)/r.height)*100 + "%");
+      });
+    }
+
+    /**********************
+     * MOUSE GLOW FOLLOWER
+     **********************/
+    const glow = $("#glow");
+    let x = innerWidth/2, y = innerHeight/2, tx = x, ty = y;
+    addEventListener("mousemove", (e) => { tx = e.clientX; ty = e.clientY; glow.style.opacity = 1; });
+    addEventListener("mouseleave", () => glow.style.opacity = 0);
+    (function loop(){
+      x += (tx - x) * 0.12;
+      y += (ty - y) * 0.12;
+      glow.style.left = x + "px";
+      glow.style.top  = y + "px";
+      requestAnimationFrame(loop);
+    })();
+
+    /**********************
+     * RENDER
+     **********************/
+    const countryGrid = $("#countryGrid");
+    const packageGrid = $("#packageGrid");
+
+    function renderCountries(){
+      countryGrid.innerHTML = "";
+      DATA.countries.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "pickCard";
+        div.innerHTML = `
+          <span class="tag">${c.label} ANIMO DETAILS</span>
+          <div class="price">${c.label}</div>
+          <div class="small">Tap to choose your package and see payment details.</div>
+        `;
+        attachButtonGlow(div);
+        div.addEventListener("click", () => {
+          selectedCountry = c;
+          selectedPackage = null;
+          selectedMethodKey = null;
+
+          $("#selCountryLabel").textContent = c.label;
+          closeModal("#countryModal");
+          renderPackagesForCountry(c);
+          openModal("#packageModal");
+        });
+        countryGrid.appendChild(div);
+      });
+    }
+
+    function renderPackagesForCountry(country){
+      packageGrid.innerHTML = "";
+      const pk = country.packages;
+      ["Gold","Silver"].filter(k=>pk[k]).forEach(planName => {
+        const plan = pk[planName];
+        const div = document.createElement("div");
+        div.className = "pickCard";
+        div.innerHTML = `
+          <span class="tag">${planName === "Gold" ? "🥇" : "🥈"} Animo ${planName}</span>
+          <div class="price">${plan.amountText}</div>
+          <div class="small">Tap to continue.</div>
+        `;
+        attachButtonGlow(div);
+        div.addEventListener("click", () => {
+          selectedPackage = planName;
+          closeModal("#packageModal");
+
+          // Nigeria -> show method modal (OPay or Bank)
+          if (country.key === "NG" && country.paymentMethods){
+            $("#selPkgLabel").textContent = "Animo " + planName;
+            $("#selAmtLabel").textContent = plan.amountText;
+            openModal("#methodModal");
+          } else {
+            // Other countries -> directly show payment details
+            fillPaymentModal(country, planName, null);
+            openModal("#payModal");
+            startCountdown(3600);
+          }
+        });
+        packageGrid.appendChild(div);
+      });
+    }
+
+    function getPaymentConfig(country, methodKey){
+      if (country.key === "NG" && country.paymentMethods){
+        return country.paymentMethods[methodKey || "bank"]; // default bank
+      }
+      return country.payment;
+    }
+
+    function buildPrefilledMessage(country, planName, payCfg){
+      const amountText = country.packages[planName]?.amountText || "—";
+      const msg =
+`Hello, please confirm my Animo payment.
+
+Country: ${country.label}
+Package: Animo ${planName}
+Amount: ${amountText}
+
+Payment Details Used:
+Channel: ${payCfg.channel}
+Account / Wallet: ${payCfg.acctNo}
+Account / Wallet Name: ${payCfg.acctName}${payCfg.note ? `
+
+Note: ${payCfg.note}` : ""}
+
+I am about to upload my proof of payment now (screenshot) and my sender name.`;
+      return msg;
+    }
+
+    function fillPaymentModal(country, planName, methodKey){
+      const pay = getPaymentConfig(country, methodKey);
+      const amountText = country.packages[planName]?.amountText || "—";
+
+      $("#pfCountry").textContent = country.label;
+      $("#pfPackage").textContent = "Animo " + planName;
+      $("#pfAmount").textContent = amountText;
+
+      $("#pfChannel").textContent = pay.channel || "—";
+      $("#pfAcctNo").textContent = pay.acctNo || "—";
+      $("#pfAcctName").textContent = pay.acctName || "—";
+
+      const note = [
+        pay.note ? pay.note : "",
+        `After payment, click "Submit Payment Proof" to message ${DATA.proofPhone} on WhatsApp.`
+      ].filter(Boolean).join(" ");
+      $("#pfNote").textContent = note;
+
+      // Copy all
+      $("#copyAll").onclick = () => {
+        const text =
+`${country.label} ANIMO DETAILS
+
+🥇 Animo Gold = ${country.packages.Gold?.amountText || "—"}
+🥈 Animo Silver = ${country.packages.Silver?.amountText || "—"}
+
+PAYMENT DETAILS
+🛜 ${pay.channel}
+📍 ${pay.acctNo}
+👥 ${pay.acctName}${pay.note ? "\n\nℹ " + pay.note : ""}
+
+After Payment: Send a screenshot of your payment slip and Sender's name to ${DATA.proofPhone} for confirmation.`;
+        copyText(text);
+      };
+
+      // Submit proof (WhatsApp)
+      $("#submitProof").onclick = () => {
+        const msg = buildPrefilledMessage(country, planName, pay);
+
+        const waDigits = DATA.proofPhone.replace(/\D/g,"");
+        const to = waDigits.startsWith("0") ? ("234" + waDigits.slice(1)) : waDigits;
+        window.location.href = "https://wa.me/" + to + "?text=" + encodeURIComponent(msg);
+      };
+    }
+
+    /**********************
+     * EVENTS
+     **********************/
+    $("#startBtn").addEventListener("click", () => openModal("#countryModal"));
+    $("#startBtn").addEventListener("keydown", (e) => { if (e.key==="Enter"||e.key===" ") openModal("#countryModal"); });
+
+    $("#closeCountry").addEventListener("click", () => closeModal("#countryModal"));
+    $("#closePackage").addEventListener("click", () => closeModal("#packageModal"));
+    $("#closeMethod").addEventListener("click", () => closeModal("#methodModal"));
+    $("#closePay").addEventListener("click", () => closeModal("#payModal"));
+
+    // backdrop close
+    ["#countryModal","#packageModal","#methodModal","#payModal"].forEach(id => {
+      const m = $(id);
+      m.addEventListener("click", (e) => { if (e.target === m) m.classList.remove("show"); });
+    });
+
+    // copy row
+    document.addEventListener("click", (e) => {
+      const b = e.target.closest(".copyBtn");
+      if (!b) return;
+      const sel = b.getAttribute("data-copy");
+      const target = document.querySelector(sel);
+      if (!target) return;
+      copyText((target.textContent || "").trim());
+    });
+
+    // Nigeria method picks
+    $("#pickOpay").addEventListener("click", () => {
+      selectedMethodKey = "opay";
+      closeModal("#methodModal");
+      fillPaymentModal(selectedCountry, selectedPackage, selectedMethodKey);
+      openModal("#payModal");
+      startCountdown(3600);
+    });
+    $("#pickBank").addEventListener("click", () => {
+      selectedMethodKey = "bank";
+      closeModal("#methodModal");
+      fillPaymentModal(selectedCountry, selectedPackage, selectedMethodKey);
+      openModal("#payModal");
+      startCountdown(3600);
+    });
+
+    // glow on buttons
+    document.querySelectorAll(".btn").forEach(attachButtonGlow);
+
+    /**********************
+     * COUNTDOWN (1 hour)
+     **********************/
+    let countdownTimer = null;
+    function startCountdown(seconds){
+      const el = $("#countdownTimer");
+      if (!el) return;
+      let remaining = seconds;
+      if (countdownTimer) clearInterval(countdownTimer);
+
+      function tick(){
+        const h = String(Math.floor(remaining / 3600)).padStart(2,'0');
+        const m = String(Math.floor((remaining % 3600) / 60)).padStart(2,'0');
+        const s = String(Math.floor(remaining % 60)).padStart(2,'0');
+        el.textContent = `${h}:${m}:${s}`;
+
+        if (remaining <= 0){
+          clearInterval(countdownTimer);
+          el.textContent = "Expired";
+          el.style.color = "rgba(239,68,68,.95)";
+          return;
+        }
+        remaining--;
+      }
+      tick();
+      countdownTimer = setInterval(tick, 1000);
+    }
+
+    /**********************
+     * INIT
+     **********************/
+    renderCountries();
+  </script>
+</body>
+</html>
